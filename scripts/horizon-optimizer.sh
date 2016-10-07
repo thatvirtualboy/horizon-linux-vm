@@ -239,17 +239,11 @@ kinit $domainadmin'@'${domainname^^}
 net ads join -U $domainadmin
 net ads testjoin
 
-pam-auth-update
-
-
 
 
 # Test domain join // need to do some sort of check
 wbinfo -g 
 sleep 2s 
-
-
-
 
 
 
