@@ -261,6 +261,6 @@ echo
 echo -e "\e[36mYour Ubuntu Template has been optimized for Horizon 7!\e[0m"
 echo
 echo -e "\e[31m"
-read -p -e "Press [ENTER] to reboot the VM..."
+read -p "Press [ENTER] to reboot the VM..."
 echo -e "\e[0m"
 reboot
