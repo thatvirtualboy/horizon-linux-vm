@@ -167,6 +167,9 @@ apt-get install open-vm-tools-deploypkg -y &> /dev/null
 # Install figlet for TVB
 apt-get install figlet -y &> /dev/null
 
+# Install Kerberos
+apt-get install krb5-user -y &> /dev/null
+
 # Install Media Codecs
 apt-get install gstreamer0.10-plugins-bad-multiverse -y &> /dev/null
 apt-get install libavcodec-extra-54 -y &> /dev/null
@@ -234,7 +237,6 @@ service winbind restart &> /dev/null
 echo
 echo -e "\e[36mJoining the domain...\e[0m"
 echo
-apt-get install krb5-user -y &> /dev/null
 kinit $domainadmin'@'${domainname^^}
 net ads join -U $domainadmin
 net ads testjoin
