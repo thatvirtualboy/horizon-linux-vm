@@ -201,6 +201,9 @@ mv /usr/share/xsessions/gnome-fallback-compiz.desktop /usr/share/xsessions/gnome
 # Update Hosts file
 echo $domaincontrollerip $domaincontroller'.'$domainname $domaincontroller >> /etc/hosts 
 
+# Update resolv
+echo 'nameserver ' $domaincontroller'.'$domainname
+
 # Install Horizon Agent Dependencies
 wget http://launchpadlibrarian.net/201393830/indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb &> /dev/null
 dpkg -i ./indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb &> /dev/null
@@ -226,10 +229,10 @@ sed -i "12 s/.*.yourdomain.*/.${domainname,,} = ${domainname^^}/" /etc/krb5.conf
 sed -i "13 s/.*yourdomain.*/${domainname,,} = ${domainname^^}/" /etc/krb5.conf
 
 # Configure SMB
-sed -i "2 s/.*workgroup.*/workgroup = ${domainname,,}/" /etc/samba/smb.conf
+sed -i "2 s/.*workgroup.*/workgroup = ${domainrealm%.*}/" /etc/samba/smb.conf
 sed -i "3 s/.*password.*/password server = ${domaincontroller,,}.${domainname,,}/" /etc/samba/smb.conf 
 sed -i "4 s/.*wins.*/wins server = $wins/" /etc/samba/smb.conf 
-sed -i "5 s/.*realm.*/realm = ${domainrealm%.*}/" /etc/samba/smb.conf 
+sed -i "5 s/.*realm.*/realm = ${domainname^^}/" /etc/samba/smb.conf 
 
 service smbd restart &> /dev/null
 service winbind restart &> /dev/null
@@ -238,7 +241,7 @@ echo
 echo -e "\e[36mJoining the domain...\e[0m"
 echo
 kinit $domainadmin'@'${domainname^^}
-net ads join -U $domainadmin
+net ads join -U $domainadmin'@'${domainname^^}
 net ads testjoin
 
 
@@ -266,3 +269,4 @@ echo -e "\e[31m"
 read -p "Press [ENTER] to reboot the VM..."
 echo -e "\e[0m"
 reboot
+
