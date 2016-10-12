@@ -16,14 +16,14 @@
 # Check for root
 if [ "$(whoami)" != "root" ]; then
    echo
-   echo -e "\e[31mOops! You must be root to continue! \n\e[0mPlease type: \e[36msu root -c ./horizon_optimizer.sh\e[0m"
+   echo -e "\e[31mOops! You must be root to continue! \n\e[0mPlease type: \e[36msu root -c ./horizon-optimizer.sh\e[0m"
    echo
    exit 1
 fi
 
 clear
 echo "+--------------------------------------------------------------------+"
-echo "| This script will configure your Ubuntu Template for Horizon 7.0.2  |"
+echo "| This script will configure your Ubuntu Template for Horizon 7      |"
 echo "| It will also do the following:                                     |"
 echo "|                                                                    |"
 echo "| - Install Open VM Tools                                            |"
@@ -45,8 +45,8 @@ echo "|                     >>> That Virtual Boy  <<<                      |"
 echo "+--------------------------------------------------------------------+"
 echo -e "\e[36m"
 read -p "Press any key to start..." -n1 -s
-clear
 echo -e "\e[0m"
+clear
 
 # Configure Network Settings
 sleep 2s
@@ -67,7 +67,6 @@ fi
 # Configure Network
 sleep 2s
 clear
-echo
 echo -e "\e[36mThe script needs to gather some information before we begin.\e[0m"
 sleep 2s
 echo 
@@ -146,8 +145,9 @@ else
     sleep 2
 fi
 echo
-clear &&
 echo -e "\e[0m"
+clear &&
+
 
 ##########################################
 # Install packages and perform OS Tweaks #
@@ -203,7 +203,6 @@ wget http://launchpadlibrarian.net/201393830/indicator-session_12.10.5+15.04.201
 dpkg -i ./indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb &> /dev/null
 
 clear
-echo
 echo -e "\e[36mOptimizing system. This may take several minutes...\e[0m"
 echo
 echo "Configuring Active Directory Integration..."
@@ -235,6 +234,7 @@ service winbind restart &> /dev/null
 echo
 echo -e "\e[36mJoining the domain...\e[0m"
 echo
+apt-get install krb5-user -y &> /dev/null
 kinit $domainadmin'@'${domainname^^}
 net ads join -U $domainadmin
 net ads testjoin
@@ -258,8 +258,9 @@ echo "                   https://thatvirtualboy.com"
 echo
 echo
 echo
-echo -e "\e[36mYour Ubuntu Template has been optimized for Horizon 7.0.2!\e[0m"
+echo -e "\e[36mYour Ubuntu Template has been optimized for Horizon 7!\e[0m"
 echo
-read -p -e "\e[31mPress ENTER to reboot the VM.\e[0m" -ns -s
+echo -e "\e[31m"
+read -p -e "Press [ENTER] to reboot the VM..."
+echo -e "\e[0m"
 reboot
-
