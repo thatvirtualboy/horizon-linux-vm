@@ -187,13 +187,26 @@ sed -i '11 s/.*hosts:.*/hosts:          cache db files dns/' /etc/nsswitch.conf
 # Enable home directory for new users
 echo 'session required pam_mkhomedir.so skel=/etc/skel/ umask=0022' >> /etc/pam.d/common-session
 
+# Install MATE desktop and modify login screen
+apt-add-repository ppa:ubuntu-mate-dev/ppa -y 
+apt-add-repository ppa:ubuntu-mate-dev/trusty-mate -y
+sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get install --no-install-recommends ubuntu-mate-core ubuntu-mate-desktop -y
+apt-get install mate-desktop-environment-extra -y
+apt-get purge unity* -y
+echo 'greeter-show-manual-login=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
+echo 'greeter-hide-users=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
+echo 'allow-guest=false' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
+
+
+
 # Modify login screen for domain usage, install Gnome, change Default session
-apt-get install gnome-session-fallback -y &> /dev/null
-sed -i '2 s/.*user-session=.*/user-session=gnome-fallback/' /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
-echo 'greeter-show-manual-login=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
-echo 'greeter-hide-users=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
-echo 'allow-guest=false' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
-mv /usr/share/xsessions/gnome-fallback-compiz.desktop /usr/share/xsessions/gnome-fallback-compiz.desktop.disable 
+#apt-get install gnome-session-fallback -y &> /dev/null
+#sed -i '2 s/.*user-session=.*/user-session=gnome-fallback/' /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
+#echo 'greeter-show-manual-login=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
+#echo 'greeter-hide-users=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
+#echo 'allow-guest=false' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
+#mv /usr/share/xsessions/gnome-fallback-compiz.desktop /usr/share/xsessions/gnome-fallback-compiz.desktop.disable 
 
 # Update Hosts file
 echo $domaincontrollerip $domaincontroller'.'$domainname $domaincontroller >> /etc/hosts 
@@ -242,33 +255,27 @@ echo -e "\e[36mJoining the domain...\e[0m"
 echo
 kinit $domainadmin'@'${domainname^^}
 net ads join -U $domainadmin'@'${domainname^^}
-#net ads testjoin
-
-if net ads testjoin | grep -q 'failed\|error\|denied'; then
-  echo
-  echo -e "\e[31mSomething went wrong joining the domain. Review the above output and take the necessary action.\e[0m"
-  echo
-fi
+net ads testjoin
 
 # Test domain join // need to do some sort of check
 wbinfo -g 
 sleep 2s 
 
 # Perform cleanup
-aptitude autoclean
+apt-get autoclean
 cat /dev/null > ~/.bash_history
 cat /dev/null > /var/log/horizon-optimizer.log
 
-#  clear
+clear
 figlet -f small That Virtual Boy
 echo "                   https://thatvirtualboy.com"
 echo
 echo
 echo
 echo -e "\e[36mYour Ubuntu Template has been optimized for Horizon 7!\e[0m"
+echo -e "\e[36mYou can scroll up to see if there were any domain join errors.\e[0m"
 echo
 echo -e "\e[31m"
 read -p "Press [ENTER] to reboot the VM..."
 echo -e "\e[0m"
 reboot
-
