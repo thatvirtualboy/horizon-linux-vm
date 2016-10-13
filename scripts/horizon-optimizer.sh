@@ -167,9 +167,6 @@ apt-get install open-vm-tools-deploypkg -y &> /dev/null
 # Install figlet for TVB
 apt-get install figlet -y &> /dev/null
 
-# Install Kerberos
-apt-get install krb5-user -y &> /dev/null
-
 # Install Media Codecs
 apt-get install gstreamer0.10-plugins-bad-multiverse -y &> /dev/null
 apt-get install libavcodec-extra-54 -y &> /dev/null
@@ -202,7 +199,7 @@ mv /usr/share/xsessions/gnome-fallback-compiz.desktop /usr/share/xsessions/gnome
 echo $domaincontrollerip $domaincontroller'.'$domainname $domaincontroller >> /etc/hosts 
 
 # Update resolv
-echo 'nameserver ' $domaincontroller'.'$domainname
+echo 'nameserver ' $domaincontroller'.'$domainname >> /etc/resolv.conf
 
 # Install Horizon Agent Dependencies
 wget http://launchpadlibrarian.net/201393830/indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb &> /dev/null
@@ -237,20 +234,25 @@ sed -i "5 s/.*realm.*/realm = ${domainname^^}/" /etc/samba/smb.conf
 service smbd restart &> /dev/null
 service winbind restart &> /dev/null
 
+# Install Kerberos & domain join
+apt-get install krb5-user -y &> /dev/null
+
 echo
 echo -e "\e[36mJoining the domain...\e[0m"
 echo
 kinit $domainadmin'@'${domainname^^}
 net ads join -U $domainadmin'@'${domainname^^}
-net ads testjoin
+#net ads testjoin
 
-
+if net ads testjoin | grep -q 'failed\|error\|denied'; then
+  echo
+  echo -e "\e[31mSomething went wrong joining the domain. Review the above output and take the necessary action.\e[0m"
+  echo
+fi
 
 # Test domain join // need to do some sort of check
 wbinfo -g 
 sleep 2s 
-
-
 
 # Perform cleanup
 aptitude autoclean
