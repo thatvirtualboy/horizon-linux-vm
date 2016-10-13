@@ -3,7 +3,6 @@
 # Horizon Optimizer for Ubuntu by Ryan Klumph
 # Please report any issues to Ryan on Twitter (@thatvirtualboy)
 # Changelog and source available at https://github.com/thatvirtualboy/horizon-optimizer
-# Many thanks to enoch85, my family, and my dog Nadia
 # www.thatvirtualboy.com
 #
 
@@ -27,7 +26,7 @@ echo "| This script will configure your Ubuntu Template for Horizon 7      |"
 echo "| It will also do the following:                                     |"
 echo "|                                                                    |"
 echo "| - Install Open VM Tools                                            |"
-echo "| - Install Winbind                                                  |"
+echo "| - Configure MATE Desktop                                           |"
 echo "| - Set new passwords to UNIX (viewadmin)                            |"
 echo "| - Install Horizon Agent Dependencies                               |"
 echo "| - Join the domain                                                  |"
@@ -148,12 +147,11 @@ echo
 echo -e "\e[0m"
 clear &&
 
-
 ##########################################
 # Install packages and perform OS Tweaks #
 ##########################################
 
-echo -e "\e[36mOptimizing system. This may take several minutes...\e[0m"
+echo -e "\e[36mOptimizing system. This will take several minutes...\e[0m"
 
 # Install Open VM Tools
 # cd /home/viewadmin
@@ -173,7 +171,7 @@ apt-get install libavcodec-extra-54 -y &> /dev/null
 apt-get install unrar -y &> /dev/null
 apt-get install ubuntu-restricted-addons -y &> /dev/null
 echo
-echo "Still working..."
+echo "Configuring desktop environment. Do not reset system..."
 echo
 
 # Change runlevel to 5
@@ -188,19 +186,21 @@ sed -i '11 s/.*hosts:.*/hosts:          cache db files dns/' /etc/nsswitch.conf
 echo 'session required pam_mkhomedir.so skel=/etc/skel/ umask=0022' >> /etc/pam.d/common-session
 
 # Install MATE desktop and modify login screen
-apt-add-repository ppa:ubuntu-mate-dev/ppa -y 
-apt-add-repository ppa:ubuntu-mate-dev/trusty-mate -y
-sudo apt-get update && sudo apt-get upgrade -y
-sudo apt-get install --no-install-recommends ubuntu-mate-core ubuntu-mate-desktop -y
-apt-get install mate-desktop-environment-extra -y
-apt-get purge unity* -y
+apt-add-repository ppa:ubuntu-mate-dev/ppa -y &> /dev/null
+apt-add-repository ppa:ubuntu-mate-dev/trusty-mate -y &> /dev/null
+sudo apt-get update && sudo apt-get upgrade -y &> /dev/null
+sudo apt-get install --no-install-recommends ubuntu-mate-core ubuntu-mate-desktop -y &> /dev/null
+apt-get install mate-desktop-environment-extra -y &> /dev/null
+apt-get purge unity* -y &> /dev/null
 echo 'greeter-show-manual-login=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
 echo 'greeter-hide-users=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
 echo 'allow-guest=false' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
 
+# Disable screensaver
+gsettings set org.mate.screensaver idle-activation-enabled false
 
+# Below modifications only needed if planning ot use Gnome Classic Desktop. Must first comment out above MATE section
 
-# Modify login screen for domain usage, install Gnome, change Default session
 #apt-get install gnome-session-fallback -y &> /dev/null
 #sed -i '2 s/.*user-session=.*/user-session=gnome-fallback/' /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
 #echo 'greeter-show-manual-login=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
@@ -219,14 +219,13 @@ wget http://launchpadlibrarian.net/201393830/indicator-session_12.10.5+15.04.201
 dpkg -i ./indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb &> /dev/null
 
 clear
-echo -e "\e[36mOptimizing system. This may take several minutes...\e[0m"
+echo -e "\e[36mOptimizing system. This will take several minutes...\e[0m"
 echo
 echo "Configuring Active Directory Integration..."
 echo
 
 # Install Winbind and configure Active Directory Integration
 apt-get install winbind -y &> /dev/null
-# apt-get install libpam-winbind // http://bit.ly/2dP2s7E
 wget https://raw.githubusercontent.com/thatvirtualboy/horizon-optimizer/master/files/krb5.conf -O /etc/krb5.conf &> /dev/null
 wget https://raw.githubusercontent.com/thatvirtualboy/horizon-optimizer/master/files/smb.conf -O /etc/samba/smb.conf &> /dev/null
 
@@ -257,12 +256,9 @@ kinit $domainadmin'@'${domainname^^}
 net ads join -U $domainadmin'@'${domainname^^}
 net ads testjoin
 
-# Test domain join // need to do some sort of check
-wbinfo -g 
-sleep 2s 
-
 # Perform cleanup
 apt-get autoclean
+apt-get autoremove
 cat /dev/null > ~/.bash_history
 cat /dev/null > /var/log/horizon-optimizer.log
 
