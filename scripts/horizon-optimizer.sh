@@ -185,6 +185,7 @@ echo 'session required pam_mkhomedir.so skel=/etc/skel/ umask=0022' >> /etc/pam.
 apt-add-repository ppa:ubuntu-mate-dev/ppa -y &> /dev/null
 apt-add-repository ppa:ubuntu-mate-dev/trusty-mate -y &> /dev/null
 apt-get update &> /dev/null
+apt-get upgrade -y &> /dev/null
 apt-get install --no-install-recommends ubuntu-mate-core ubuntu-mate-desktop -y &> /dev/null
 apt-get install mate-desktop-environment-extra -y &> /dev/null
 # apt-get purge unity* -y &> /dev/null
