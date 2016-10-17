@@ -1,16 +1,12 @@
 #! /bin/bash
 #
 # Horizon Optimizer for Ubuntu by Ryan Klumph
+# Version: RC1
 # Please report any issues to Ryan on Twitter (@thatvirtualboy)
 # Changelog and source available at https://github.com/thatvirtualboy/horizon-optimizer
 # www.thatvirtualboy.com
 #
 
-#################################################
-#                                               #
-# >>> THIS SCRIPT IS INCOMPLETE. DO NOT USE <<< #
-#                                               #
-#################################################
 
 # Check for root
 if [ "$(whoami)" != "root" ]; then
@@ -35,9 +31,9 @@ echo "|                                                                    |"
 echo "|   For a full list of changes and optimizations,                    |"
 echo "|   please visit https://thatvirtualboy.com                          |"
 echo "|                                                                    |"
-echo "|   ** This script is provided as-is.                                |"
-echo "|   ** Please ensure you have proper backups.                        |"
-echo "|   ** Use at your own risk.                                         |"
+echo "|   ** THIS SCRIPT IS NOT OFFICIALLY SUPPORTED BY VMWARE             |"
+echo "|   ** ENSURE YOU HAVE PROPER BACKUPS                                |"
+echo "|   ** ENSURE SYSTEM IS FULLY UPDATED BEFORE INVOKING SCRIPT         |"
 echo "|                                                                    |"
 echo "|                                                                    |"
 echo "|                     >>> That Virtual Boy  <<<                      |"
@@ -171,7 +167,7 @@ apt-get install libavcodec-extra-54 -y &> /dev/null
 apt-get install unrar -y &> /dev/null
 apt-get install ubuntu-restricted-addons -y &> /dev/null
 echo
-echo "Configuring desktop environment. Do not reset system..."
+echo "Configuring desktop environment..."
 echo
 
 # Change runlevel to 5
@@ -188,16 +184,16 @@ echo 'session required pam_mkhomedir.so skel=/etc/skel/ umask=0022' >> /etc/pam.
 # Install MATE desktop and modify login screen
 apt-add-repository ppa:ubuntu-mate-dev/ppa -y &> /dev/null
 apt-add-repository ppa:ubuntu-mate-dev/trusty-mate -y &> /dev/null
-sudo apt-get update && sudo apt-get upgrade -y &> /dev/null
-sudo apt-get install --no-install-recommends ubuntu-mate-core ubuntu-mate-desktop -y &> /dev/null
+apt-get update &> /dev/null
+apt-get install --no-install-recommends ubuntu-mate-core ubuntu-mate-desktop -y &> /dev/null
 apt-get install mate-desktop-environment-extra -y &> /dev/null
-apt-get purge unity* -y &> /dev/null
+# apt-get purge unity* -y &> /dev/null
 echo 'greeter-show-manual-login=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
 echo 'greeter-hide-users=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
 echo 'allow-guest=false' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
 
-# Disable screensaver
-gsettings set org.mate.screensaver idle-activation-enabled false
+# Disable screensaver // fails when performed in script. might create instructions for manual MATE tweaks
+# gsettings set org.mate.screensaver idle-activation-enabled false
 
 # Below modifications only needed if planning ot use Gnome Classic Desktop. Must first comment out above MATE section
 
@@ -258,7 +254,6 @@ net ads testjoin
 
 # Perform cleanup
 apt-get autoclean
-apt-get autoremove
 cat /dev/null > ~/.bash_history
 cat /dev/null > /var/log/horizon-optimizer.log
 
