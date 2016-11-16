@@ -74,6 +74,6 @@ If the VM failed to join the domain during the script, attempt manually joining 
 
 `net ads testjoin` (should say “Join is OK” if it worked)
 
-Verify your hosts, KRB5 and SMB configuration files reflect the correct addresses and IP addresses.
+Verify your **hosts**, **KRB5** and **SMB** configuration files reflect the correct addresses and IP addresses.
 
 Verify there is no time drift between the Ubuntu VM and the DCs. You may need to reconfigure NTP or disable it.
