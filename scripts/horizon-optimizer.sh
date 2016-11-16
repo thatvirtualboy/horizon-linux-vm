@@ -6,19 +6,7 @@
 # Changelog and source available at https://github.com/thatvirtualboy/horizon-optimizer
 # www.thatvirtualboy.com
 #
-
-
-
-# To Do
-# 
-# Get mini.iso working with auto-config of MATE per https://alfonsojon.wordpress.com/2014/08/22/make-your-own-ubuntu-14-04-lts-mate-edition/
-# Configure script to auto start after user logs in (similar to oc vm)
-# Test more against lab and David's Lab
-#
-
-
-
-
+# https://raw.githubusercontent.com/thatvirtualboy/horizon-optimizer/master/scripts/horizon-optimizer.sh
 
 # Check for root
 if [ "$(whoami)" != "root" ]; then
@@ -179,9 +167,10 @@ apt-get install libavcodec-extra-54 -y
 apt-get install unrar -y 
 apt-get install ubuntu-restricted-addons -y 
 clear
-echo
+echo -e "\e[36m"
 echo "Configuring desktop environment..."
-echo
+echo -e "\e[0m"
+sleep 2s
 
 # Change runlevel to 5
 sed -i '14 s/2/5/' /etc/init/rc-sysinit.conf
@@ -233,8 +222,9 @@ dpkg -i ./indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb
 clear
 echo -e "\e[36mOptimizing system. This will take several minutes...\e[0m"
 echo
-echo "Configuring Active Directory Integration..."
+echo -e "\e[36mConfiguring Active Directory Integration...\e[0m"
 echo
+sleep 2s
 
 # Install Winbind and configure Active Directory Integration
 apt-get install winbind -y 
@@ -273,7 +263,7 @@ apt-get autoclean
 cat /dev/null > ~/.bash_history
 cat /dev/null > /var/log/horizon-optimizer.log
 
-clear
+
 figlet -f small That Virtual Boy
 echo "                   https://thatvirtualboy.com"
 echo
