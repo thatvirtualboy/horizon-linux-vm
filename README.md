@@ -47,8 +47,6 @@ Version: RC1
 * New user home directory config
 * Optimizes login screen for VDI
 * Remove guest login
-* install Horizon Agent 
-* Configure RunOneScript
 * Installs Drivers & Media Codecs
 * Currently only supports one domain controller
 * Support for 2D desktops only
