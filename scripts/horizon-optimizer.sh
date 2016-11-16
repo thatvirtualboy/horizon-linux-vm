@@ -3,10 +3,10 @@
 # Horizon Optimizer for Ubuntu by Ryan Klumph
 # Version: RC1
 # Please report any issues to Ryan on Twitter (@thatvirtualboy)
-# Changelog and source available at https://github.com/thatvirtualboy/horizon-optimizer
+# Changelog and source available at https://github.com/thatvirtualboy/horizon-linux-vm
 # www.thatvirtualboy.com
 #
-# https://raw.githubusercontent.com/thatvirtualboy/horizon-optimizer/master/scripts/horizon-optimizer.sh
+
 
 # Check for root
 if [ "$(whoami)" != "root" ]; then
@@ -51,7 +51,7 @@ nslookup vmware.com &> /dev/null
 if [[ $? > 0 ]]
 then
     echo
-    echo "\e[31mI can't seem to get to the internet. You need a working Network connection to run this script.\e[0m"
+    echo -e "\e[31mI can't seem to get to the internet. You need a working Network connection to run this script.\e[0m"
     echo
     exit 1
 else
@@ -148,6 +148,7 @@ clear &&
 ##########################################
 
 echo -e "\e[36mOptimizing system. This will take several minutes...\e[0m"
+sleep 2s
 
 # Install Open VM Tools
 # cd /home/viewadmin
@@ -270,7 +271,7 @@ echo
 echo
 echo
 echo -e "\e[36mYour Ubuntu Template has been optimized for Horizon 7!\e[0m"
-echo -e "\e[36mYou can scroll up to see if there were any domain join errors.\e[0m"
+echo -e "\e[36mVisit https://github.com/thatvirtualboy/ if there were any domain join errors.\e[0m"
 echo
 echo -e "\e[31m"
 read -p "Press [ENTER] to reboot the VM..."
