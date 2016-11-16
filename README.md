@@ -1,4 +1,4 @@
-# Horizon Optimizer for Ubuntu
-Optimize Ubuntu Template for VMware Horizon 7
+# Horizon Linux VM
+Optimized Ubuntu Template for VMware Horizon 7
 
 ## Coming  Soon
