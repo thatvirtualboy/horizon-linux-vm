@@ -8,6 +8,18 @@
 #
 
 
+
+# To Do
+# 
+# Get mini.iso working with auto-config of MATE per https://alfonsojon.wordpress.com/2014/08/22/make-your-own-ubuntu-14-04-lts-mate-edition/
+# Configure script to auto start after user logs in (similar to oc vm)
+# Test more against lab and David's Lab
+#
+
+
+
+
+
 # Check for root
 if [ "$(whoami)" != "root" ]; then
    echo
@@ -151,21 +163,22 @@ echo -e "\e[36mOptimizing system. This will take several minutes...\e[0m"
 
 # Install Open VM Tools
 # cd /home/viewadmin
-wget -r --no-parent --reject "index.html*" http://packages.vmware.com/tools/keys/ -P /home/viewadmin &> /dev/null
+wget -r --no-parent --reject "index.html*" http://packages.vmware.com/tools/keys/ -P /home/viewadmin
 apt-key add /home/viewadmin/packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-DSA-KEY.pub
 apt-key add /home/viewadmin/packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-RSA-KEY.pub
 echo "deb http://packages.vmware.com/packages/ubuntu precise main" > /etc/apt/sources.list.d/vmware-tools.list
-apt-get update &> /dev/null
-apt-get install open-vm-tools-deploypkg -y &> /dev/null
+apt-get update 
+apt-get install open-vm-tools-deploypkg -y 
 
 # Install figlet for TVB
-apt-get install figlet -y &> /dev/null
+apt-get install figlet -y 
 
 # Install Media Codecs
-apt-get install gstreamer0.10-plugins-bad-multiverse -y &> /dev/null
-apt-get install libavcodec-extra-54 -y &> /dev/null
-apt-get install unrar -y &> /dev/null
-apt-get install ubuntu-restricted-addons -y &> /dev/null
+apt-get install gstreamer0.10-plugins-bad-multiverse -y 
+apt-get install libavcodec-extra-54 -y 
+apt-get install unrar -y 
+apt-get install ubuntu-restricted-addons -y 
+clear
 echo
 echo "Configuring desktop environment..."
 echo
@@ -182,12 +195,14 @@ sed -i '11 s/.*hosts:.*/hosts:          cache db files dns/' /etc/nsswitch.conf
 echo 'session required pam_mkhomedir.so skel=/etc/skel/ umask=0022' >> /etc/pam.d/common-session
 
 # Install MATE desktop and modify login screen
-apt-add-repository ppa:ubuntu-mate-dev/ppa -y &> /dev/null
-apt-add-repository ppa:ubuntu-mate-dev/trusty-mate -y &> /dev/null
-apt-get update &> /dev/null
-apt-get upgrade -y &> /dev/null
-apt-get install --no-install-recommends ubuntu-mate-core ubuntu-mate-desktop -y &> /dev/null
-apt-get install mate-desktop-environment-extra -y &> /dev/null
+apt-get install software-properties-common -y
+apt-add-repository ppa:ubuntu-mate-dev/ppa -y
+apt-add-repository ppa:ubuntu-mate-dev/trusty-mate -y 
+apt-get update 
+# apt-get upgrade -y 
+# apt-get install --no-install-recommends ubuntu-mate-core ubuntu-mate-desktop -y 
+apt-get install ubuntu-mate-core ubuntu-mate-desktop -y 
+apt-get install mate-desktop-environment-extra -y 
 # apt-get purge unity* -y &> /dev/null
 echo 'greeter-show-manual-login=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
 echo 'greeter-hide-users=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
@@ -212,8 +227,8 @@ echo $domaincontrollerip $domaincontroller'.'$domainname $domaincontroller >> /e
 echo 'nameserver ' $domaincontroller'.'$domainname >> /etc/resolv.conf
 
 # Install Horizon Agent Dependencies
-wget http://launchpadlibrarian.net/201393830/indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb &> /dev/null
-dpkg -i ./indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb &> /dev/null
+wget http://launchpadlibrarian.net/201393830/indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb 
+dpkg -i ./indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb 
 
 clear
 echo -e "\e[36mOptimizing system. This will take several minutes...\e[0m"
@@ -222,9 +237,9 @@ echo "Configuring Active Directory Integration..."
 echo
 
 # Install Winbind and configure Active Directory Integration
-apt-get install winbind -y &> /dev/null
-wget https://raw.githubusercontent.com/thatvirtualboy/horizon-optimizer/master/files/krb5.conf -O /etc/krb5.conf &> /dev/null
-wget https://raw.githubusercontent.com/thatvirtualboy/horizon-optimizer/master/files/smb.conf -O /etc/samba/smb.conf &> /dev/null
+apt-get install winbind -y 
+wget https://raw.githubusercontent.com/thatvirtualboy/horizon-optimizer/master/files/krb5.conf -O /etc/krb5.conf 
+wget https://raw.githubusercontent.com/thatvirtualboy/horizon-optimizer/master/files/smb.conf -O /etc/samba/smb.conf 
 
 # Configure KRB5
 sed -i "3 s/.*default_realm.*/default_realm = ${domainname^^}/" /etc/krb5.conf
@@ -240,12 +255,12 @@ sed -i "3 s/.*password.*/password server = ${domaincontroller,,}.${domainname,,}
 sed -i "4 s/.*wins.*/wins server = $wins/" /etc/samba/smb.conf 
 sed -i "5 s/.*realm.*/realm = ${domainname^^}/" /etc/samba/smb.conf 
 
-service smbd restart &> /dev/null
-service winbind restart &> /dev/null
+service smbd restart 
+service winbind restart 
 
 # Install Kerberos & domain join
-apt-get install krb5-user -y &> /dev/null
-
+apt-get install krb5-user -y 
+clear
 echo
 echo -e "\e[36mJoining the domain...\e[0m"
 echo
