@@ -11,7 +11,7 @@ Ubuntu MATE Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternat
 * Default username/password is viewadmin/viewadmin
 * The VM includes the optimization script which configures VM to Best Practices per Horizon 7 Documentation
 * Additional system tweaks and applications may be necessary for your needs. 
-* Due to licensing, the Horizon Agent is not included in this OVA. It must be installed manually after booting and running the script. 
+* Due to licensing, the Horizon Agent is _currently_ not included in this OVA. It must be installed manually after booting and running the script. 
 * Horizon Linux VM has been tested with Windows 2008 Domains and Samba Domains
 
 ### Steps:
