@@ -23,7 +23,7 @@ Ubuntu MATE Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternat
 7. Enter the root password (viewadmin)
 8. Follow the prompts 
 
-Once complete, you can manually install the VMware Horizon Agent following instructions here, or you can invoke the horizon-installer-linux.sh script
+Once complete, you can manually install the VMware Horizon Agent following instructions [here](http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-F1CE6329-250C-44BF-9708-7155539275E1.html) then proceed to building your pools.
 
 
 ### Changelog
@@ -66,10 +66,10 @@ Joining the domain can fail for many reasons. You can try the below tests and re
 
 If the VM failed to join the domain during the script, attempt manually joining again after the reboot.
 
-`kinit username@DOMAIN.COM
-klist` (to verify you received a ticket)
-`net ads join -U username%password
-net ads testjoin` (should say “Join is OK” if it worked)`
+`kinit username@DOMAIN.COM'
+'klist` (to verify you received a ticket)
+`net ads join -U username%password'
+'net ads testjoin` (should say “Join is OK” if it worked)`
 
 Verify your hosts, KRB5 and SMB configuration files reflect the correct addresses and IP addresses.
 
