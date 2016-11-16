@@ -12,6 +12,7 @@ Ubuntu MATE Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternat
 * The VM includes the optimization script which configures VM to Best Practices per Horizon 7 Documentation
 * Additional system tweaks and applications may be necessary for your needs. 
 * Due to licensing, the Horizon Agent is not included in this OVA. It must be installed manually after booting and running the script. 
+* Horizon Linux VM has been tested with Windows 2008 Domains and Samba Domains
 
 ### Steps:
 1. Download the pre packaged OVA & deploy to your datacenter
@@ -57,12 +58,12 @@ Version: RC1
 * Note your Active Directory may have different encryption type requirements. These can be modified in krb5.conf 
 * After rebooting, you can run the command `wbinfo -g` to see your AD groups. This also confirms you are joined to the domain.
 * Consider deleting the script from /home/viewadmin prior to creating your clones
-* Using Winbind means each clone must re-join the domain after creation. You can create a local script on each clone to perform this, but it would require domain admin credentials in plaintext. In a production environment, it is recommended to remotely join your clones to the domain using PowerCLI or SSH: http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-0C6CE923-3CBB-4006-9081-807B62F474DF.html 
+* Using Winbind means each clone must re-join the domain after creation. You can create a local script on each clone to perform this, but it would require domain admin credentials in plaintext. In a production environment, it is recommended to remotely join your clones to the domain [using PowerCLI or SSH](http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-0C6CE923-3CBB-4006-9081-807B62F474DF.html).
 
 
 ### Troubleshooting Domain Join
 
-Joining the domain can fail for many reasons. You can try the below tests and review against the guide at https://thatvirtualboy.com/2016/09/27/deploying-linux-vdi-pools-with-horizon-7/#::Configure-Ubuntu-to-Integrate-with-Active-Directory 
+Joining the domain can fail for many reasons. You can try the below tests and review against the guide [here](https://thatvirtualboy.com/2016/09/27/deploying-linux-vdi-pools-with-horizon-7/#::Configure-Ubuntu-to-Integrate-with-Active-Directory).
 
 If the VM failed to join the domain during the script, attempt manually joining again after the reboot.
 
