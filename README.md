@@ -17,9 +17,9 @@ Ubuntu MATE Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternat
 1. Download the pre packaged OVA & deploy to your datacenter
 2. Boot the VM and ensure you get a valid IP and can reach the internet
 3. Open a console to the VM and login as viewadmin/viewadmin
-4. Open Terminal and type sudo apt-get update && sudo apt-get upgrade
+4. Open Terminal and type `sudo apt-get update && sudo apt-get upgrade`
 5. Install all available updates and reboot if prompted
-6. Open Terminal and type su root -c ./horizon-optimizer.sh
+6. Open Terminal and type `su root -c ./horizon-optimizer.sh`
 7. Enter the root password (viewadmin)
 8. Follow the prompts 
 
@@ -55,7 +55,7 @@ Version: RC1
 ### Key Considerations
 
 * Note your Active Directory may have different encryption type requirements. These can be modified in krb5.conf 
-* After rebooting, you can run the command ‘wbinfo -g’ to see your AD groups. This also confirms you are joined to the domain.
+* After rebooting, you can run the command `wbinfo -g` to see your AD groups. This also confirms you are joined to the domain.
 * Consider deleting the script from /home/viewadmin prior to creating your clones
 * Using Winbind means each clone must re-join the domain after creation. You can create a local script on each clone to perform this, but it would require domain admin credentials in plaintext. In a production environment, it is recommended to remotely join your clones to the domain using PowerCLI or SSH: http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-0C6CE923-3CBB-4006-9081-807B62F474DF.html 
 
