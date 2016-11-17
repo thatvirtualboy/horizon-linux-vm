@@ -3,6 +3,8 @@ Optimized Ubuntu Template for VMware Horizon 7
 
 Ubuntu MATE Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative to Windows for VDI Admins who are looking to move away from a Windows-centric desktop delivery. With an infrastructure utilizing VMware Horizon 7, this script aims to ease the setup and configuration of a Ubuntu Template VM, especially for Windows Admins that aren’t familiar with a Linux desktop.
 
+<p align="center"><img src="https://cloud.githubusercontent.com/assets/13758243/20411504/fef10d34-acde-11e6-8a1f-1a03620fb9fc.png" height="593" width="765"></p>
+
 ## Instructions
 
 ### Preconfigured Ubuntu OVA
