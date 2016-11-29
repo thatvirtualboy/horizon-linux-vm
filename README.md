@@ -84,13 +84,13 @@ Joining the domain can fail for many reasons. You can try the below tests and re
 
 * If the VM failed to join the domain during the script, attempt manually joining again after the reboot.
 
-`kinit username@DOMAIN.COM`
+   `kinit username@DOMAIN.COM`
 
-`klist` (to verify you received a ticket)
+   `klist` (to verify you received a ticket)
 
-`net ads join -U username%password`
+   `net ads join -U username%password`
 
-`net ads testjoin` (should say “Join is OK” if it worked)
+   `net ads testjoin` (should say “Join is OK” if it worked)
 
 * Verify your **hosts**, **KRB5** and **SMB** configuration files reflect the correct addresses and IP addresses.
 
