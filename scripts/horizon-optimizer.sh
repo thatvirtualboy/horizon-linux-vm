@@ -1,12 +1,10 @@
 #! /bin/bash
 #
 # Horizon Optimizer for Ubuntu by Ryan Klumph
-# Version: RC1
+# Version: RC2
 # Please report any issues to Ryan on Twitter (@thatvirtualboy)
 # Changelog and source available at https://github.com/thatvirtualboy/horizon-linux-vm
 # www.thatvirtualboy.com
-#
-
 
 # Check for root
 if [ "$(whoami)" != "root" ]; then
@@ -22,10 +20,10 @@ echo "| This script will configure your Ubuntu Template for Horizon 7      |"
 echo "| It will also do the following:                                     |"
 echo "|                                                                    |"
 echo "| - Install Open VM Tools                                            |"
-echo "| - Configure MATE Desktop                                           |"
+echo "| - Optimize a Desktop Environment                                   |"
 echo "| - Set new passwords to UNIX (viewadmin)                            |"
 echo "| - Install Horizon Agent Dependencies                               |"
-echo "| - Join the domain                                                  |"
+echo "| - Join the domain (optional)                                       |"
 echo "| - Other optimizations                                              |"
 echo "|                                                                    |"
 echo "|   For a full list of changes and optimizations,                    |"
@@ -81,7 +79,7 @@ sleep 2s
 read -p "Enter a domain administrator (E.g., administrator): " domainadmin;
 sleep 2s
 clear
-echo "Would you like to configure your DNS?"
+echo -e "\e[36mWould you like to configure your DNS?\e[0m"
 select yn in "Yes" "No"; do
 case $yn in
 Yes ) read -p "Type your primary DNS server IP and hit [ENTER] " enterdns1; read -p "Type your secondary DNS server IP and hit [ENTER] " enterdns2;
@@ -148,10 +146,10 @@ clear &&
 ##########################################
 
 echo -e "\e[36mOptimizing system. This will take several minutes...\e[0m"
+echo
 sleep 2s
 
 # Install Open VM Tools
-# cd /home/viewadmin
 wget -r --no-parent --reject "index.html*" http://packages.vmware.com/tools/keys/ -P /home/viewadmin
 apt-key add /home/viewadmin/packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-DSA-KEY.pub
 apt-key add /home/viewadmin/packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-RSA-KEY.pub
@@ -160,7 +158,7 @@ apt-get update
 apt-get install open-vm-tools-deploypkg -y 
 
 # Install figlet for TVB
-apt-get install figlet -y 
+apt-get install figlet -y
 
 # Install Media Codecs
 apt-get install gstreamer0.10-plugins-bad-multiverse -y 
@@ -176,6 +174,9 @@ sleep 2s
 # Change runlevel to 5
 sed -i '14 s/2/5/' /etc/init/rc-sysinit.conf
 
+# Disable LTS Upgrade MOTD
+sed -i '17 s/.*Prompt.*/Prompt=never/' /etc/update-manager/release-upgrades
+
 # Update nsswitch
 sed -i '7 s/.*passwd:.*/passwd:         compat winbind/' /etc/nsswitch.conf
 sed -i '9 s/.*shadow:.*/shadow:         compat winbind/' /etc/nsswitch.conf
@@ -185,52 +186,47 @@ sed -i '11 s/.*hosts:.*/hosts:          cache db files dns/' /etc/nsswitch.conf
 echo 'session required pam_mkhomedir.so skel=/etc/skel/ umask=0022' >> /etc/pam.d/common-session
 
 # Install MATE desktop and modify login screen
+configureMATE(){
+apt-get update
+apt-get -f install -y
 apt-get install software-properties-common -y
 apt-add-repository ppa:ubuntu-mate-dev/ppa -y
 apt-add-repository ppa:ubuntu-mate-dev/trusty-mate -y 
 apt-get update 
-# apt-get upgrade -y 
-# apt-get install --no-install-recommends ubuntu-mate-core ubuntu-mate-desktop -y 
 apt-get install ubuntu-mate-core ubuntu-mate-desktop -y 
 apt-get install mate-desktop-environment-extra -y 
-# apt-get purge unity* -y &> /dev/null
 echo 'greeter-show-manual-login=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
 echo 'greeter-hide-users=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
 echo 'allow-guest=false' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
+}
 
-# Disable screensaver // fails when performed in script. might create instructions for manual MATE tweaks
-# gsettings set org.mate.screensaver idle-activation-enabled false
-
-# Below modifications only needed if planning ot use Gnome Classic Desktop. Must first comment out above MATE section
-
-#apt-get install gnome-session-fallback -y &> /dev/null
-#sed -i '2 s/.*user-session=.*/user-session=gnome-fallback/' /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
-#echo 'greeter-show-manual-login=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
-#echo 'greeter-hide-users=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
-#echo 'allow-guest=false' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
-#mv /usr/share/xsessions/gnome-fallback-compiz.desktop /usr/share/xsessions/gnome-fallback-compiz.desktop.disable 
-
-# Update Hosts file
-echo $domaincontrollerip $domaincontroller'.'$domainname $domaincontroller >> /etc/hosts 
-
-# Update resolv
-echo 'nameserver ' $domaincontroller'.'$domainname >> /etc/resolv.conf
-
-# Install Horizon Agent Dependencies
-wget http://launchpadlibrarian.net/201393830/indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb 
-dpkg -i ./indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb 
-
+# Install GNOME desktop and modify login screen
+configureGNOME(){
+apt-get update
+apt-get -f install -y
+apt-get install ubuntu-gnome-desktop gnome-session-flashback ubuntu-wallpapers  -y
 clear
-echo -e "\e[36mOptimizing system. This will take several minutes...\e[0m"
-echo
-echo -e "\e[36mConfiguring Active Directory Integration...\e[0m"
-echo
-sleep 2s
+echo -e "\e[36m"
+read -p "To optimize login screen for Enterprise, lightdm will be configured. In the next screen, please select lightdm. Press [ENTER] to continue." -n1 -s
+echo -e "\e[0m"
+apt-get install lightdm lightdm-gtk-greeter -y
+#sed -i '2 s/.*greeter-session=.*/greeter-session=lightdm-gtk-greeter/' /usr/share/lightdm/lightdm.conf.d/50-unity-greeter.conf
+echo '[SeatDefaults]' >> /usr/share/lightdm/lightdm.conf.d/50-unity-greeter.conf
+echo 'greeter-show-manual-login=true' >> /usr/share/lightdm/lightdm.conf.d/50-unity-greeter.conf
+echo 'greeter-hide-users=true' >> /usr/share/lightdm/lightdm.conf.d/50-unity-greeter.conf
+echo 'allow-guest=false' >> /usr/share/lightdm/lightdm.conf.d/50-unity-greeter.conf
+echo 'user-session=gnome-fallback' >> /usr/share/lightdm/lightdm.conf.d/50-unity-greeter.conf
+mv /usr/share/xsessions/gnome.desktop /usr/share/xsessions/gnome.desktop.disable
+mv /usr/share/xsessions/gnome-fallback-compiz.desktop /usr/share/xsessions/gnome-fallback-compiz.desktop.disable
+mv /usr/share/xsessions/gnome-classic.desktop /usr/share/xsessions/gnome-classic.desktop.disable
+}
 
 # Install Winbind and configure Active Directory Integration
+winbind(){
 apt-get install winbind -y 
 wget https://raw.githubusercontent.com/thatvirtualboy/horizon-optimizer/master/files/krb5.conf -O /etc/krb5.conf 
 wget https://raw.githubusercontent.com/thatvirtualboy/horizon-optimizer/master/files/smb.conf -O /etc/samba/smb.conf 
+
 
 # Configure KRB5
 sed -i "3 s/.*default_realm.*/default_realm = ${domainname^^}/" /etc/krb5.conf
@@ -244,7 +240,17 @@ sed -i "13 s/.*yourdomain.*/${domainname,,} = ${domainname^^}/" /etc/krb5.conf
 sed -i "2 s/.*workgroup.*/workgroup = ${domainrealm%.*}/" /etc/samba/smb.conf
 sed -i "3 s/.*password.*/password server = ${domaincontroller,,}.${domainname,,}/" /etc/samba/smb.conf 
 sed -i "4 s/.*wins.*/wins server = $wins/" /etc/samba/smb.conf 
-sed -i "5 s/.*realm.*/realm = ${domainname^^}/" /etc/samba/smb.conf 
+sed -i "5 s/.*realm.*/realm = ${domainname^^}/" /etc/samba/smb.conf
+clear
+echo -e "\e[36mWould you like Winbind to use default domain? More info here: http://bit.ly/2eYWFl7\e[0m"
+select kn in "Yes" "No"; do
+  case $kn in
+    Yes ) 
+sed -i "10 s/.*winbind.*/winbind use default domain = true/" /etc/samba/smb.conf
+break;;
+No ) break;;
+esac
+done
 
 service smbd restart 
 service winbind restart 
@@ -255,11 +261,15 @@ clear
 echo
 echo -e "\e[36mJoining the domain...\e[0m"
 echo
+sleep 1s
 kinit $domainadmin'@'${domainname^^}
 net ads join -U $domainadmin'@'${domainname^^}
 net ads testjoin
+finish
+}
 
 # Perform cleanup
+finish(){
 apt-get autoclean
 cat /dev/null > ~/.bash_history
 cat /dev/null > /var/log/horizon-optimizer.log
@@ -273,7 +283,57 @@ echo
 echo -e "\e[36mYour Ubuntu Template has been optimized for Horizon 7!\e[0m"
 echo -e "\e[36mVisit https://github.com/thatvirtualboy/ if there were any domain join errors.\e[0m"
 echo
+echo -e "\e[36mNext Steps: install apps, apply required customizations, and install the Horizon Agent.\e[0m"
+echo -e "\e[36mAfter reboot, viewadmin can invoke the 'horizon-linux-installer.sh' script if desired."
+echo
 echo -e "\e[31m"
 read -p "Press [ENTER] to reboot the VM..."
 echo -e "\e[0m"
 reboot
+}
+
+# Update Hosts file
+echo $domaincontrollerip $domaincontroller'.'$domainname $domaincontroller >> /etc/hosts 
+
+# Update resolv
+echo 'nameserver ' $domaincontroller'.'$domainname >> /etc/resolv.conf
+
+# Install Horizon Agent Dependencies
+wget http://launchpadlibrarian.net/201393830/indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb 
+dpkg -i ./indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb 
+
+
+# Choose DE
+clear
+echo -e "\e[36mChoose a desktop session. GNOME Flashback is officially supported by VMware. MATE currently is not supported, but has been known to work.\e[0m"
+select knn in "GNOME" "MATE"; do
+case $knn in
+GNOME )
+echo
+echo -e "\e[36mConfiguring GNOME Flashback (Metacity) Desktop Environment...\e[0m"
+echo
+configureGNOME
+break;;
+MATE ) 
+echo
+echo -e "\e[36mConfiguring MATE Desktop Environment (UNSUPPORTED)...\e[0m"
+echo
+configureMATE
+break;; 
+esac
+done
+
+# Choose to join domain
+clear
+echo -e "\e[36mConfiguring Active Directory Integration...\e[0m"
+echo
+echo -e "\e[36mDo you want to install Winbind and join the domain? If you choose No, you will need to manually configure Active Directory Integration later.\e[0m"
+select kn in "Yes" "No"; do
+case $kn in
+Yes ) winbind
+break;;
+No ) finish
+break;; 
+esac
+done
+sleep 2s
