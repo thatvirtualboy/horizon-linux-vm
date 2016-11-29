@@ -3,10 +3,10 @@ Optimized Ubuntu Template for VMware Horizon 7
 
 Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative to Windows for VDI Admins who are looking to move away from a Windows-centric desktop delivery. With an infrastructure utilizing VMware Horizon 7, this pre-packaged OVA aims to ease the setup and configuration of a Ubuntu Template VM, especially for Windows Admins that aren’t familiar with a Linux desktop. This OVA allows for two configurations:
 
-### GNOME Flashback (Metacity) - Official VMware Supported
+### GNOME Flashback (Metacity) - Official VMware Supported DE
 <p align="center"><img src="https://cloud.githubusercontent.com/assets/13758243/20696129/c0cd753c-b5ae-11e6-8ea6-7c52087fbdaa.png" height="593" width="765"></p>
 
-### MATE - UNofficial (No VMware Support)
+### MATE - UNofficial DE (No VMware Support)
 <p align="center"><img src="https://cloud.githubusercontent.com/assets/13758243/20411504/fef10d34-acde-11e6-8a1f-1a03620fb9fc.png" height="593" width="765"></p>
 
 ## Instructions
