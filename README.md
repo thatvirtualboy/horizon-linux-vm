@@ -73,8 +73,9 @@ Version: RC1
 
 * Note your Active Directory may have different encryption type requirements. These can be modified in krb5.conf 
 * After rebooting, you can run the command `wbinfo -g` to see your AD groups. This also confirms you are joined to the domain.
-* Consider deleting the script from /home/viewadmin prior to creating your clones
+* This script defaults the Winbind Separator to "+" in **smb.conf.** You can change it depending on your needs. More info [here](https://communities.vmware.com/docs/DOC-30246).
 * Using Winbind means each clone must re-join the domain after creation. You can create a local script on each clone to perform this, but it would require domain admin credentials in plaintext. In a production environment, it is recommended to remotely join your clones to the domain [using PowerCLI or SSH](http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-0C6CE923-3CBB-4006-9081-807B62F474DF.html).
+* Consider deleting the scripts from /home/viewadmin prior to creating your clones
 
 
 ### Troubleshooting Domain Join
