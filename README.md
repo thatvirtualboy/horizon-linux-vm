@@ -1,8 +1,12 @@
 # Horizon Linux VM
 Optimized Ubuntu Template for VMware Horizon 7
 
-Ubuntu MATE Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative to Windows for VDI Admins who are looking to move away from a Windows-centric desktop delivery. With an infrastructure utilizing VMware Horizon 7, this script aims to ease the setup and configuration of a Ubuntu Template VM, especially for Windows Admins that aren’t familiar with a Linux desktop.
+Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative to Windows for VDI Admins who are looking to move away from a Windows-centric desktop delivery. With an infrastructure utilizing VMware Horizon 7, this pre-packaged OVA aims to ease the setup and configuration of a Ubuntu Template VM, especially for Windows Admins that aren’t familiar with a Linux desktop. This OVA allows for two configurations:
 
+### GNOME Flashback (Metacity) - Official VMware Supported
+<p align="center"><img src="https://cloud.githubusercontent.com/assets/13758243/20696129/c0cd753c-b5ae-11e6-8ea6-7c52087fbdaa.png" height="593" width="765"></p>
+
+### MATE - UNofficial (No VMware Support)
 <p align="center"><img src="https://cloud.githubusercontent.com/assets/13758243/20411504/fef10d34-acde-11e6-8a1f-1a03620fb9fc.png" height="593" width="765"></p>
 
 ## Instructions
@@ -13,23 +17,35 @@ Ubuntu MATE Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternat
 * Default username/password is viewadmin/viewadmin
 * The VM includes the optimization script which configures VM to Best Practices per Horizon 7 Documentation
 * Additional system tweaks and applications may be necessary for your needs. 
-* Due to licensing, the Horizon Agent is _currently_ not included in this OVA. It must be installed manually after booting and running the script. 
-* Horizon Linux VM has been tested with Windows 2008 Domains and Samba Domains
+* Due to licensing limitations, the Horizon Agent is _currently_ not included in this OVA. It must be downloaded manually after booting and running the script. 
+* Horizon Linux VM has been tested with Windows 2003 & 2008 Domains and Samba Domains
 
 ### Steps:
-1. [Download](https://rakdom.asuscomm.com/owncloud/s/zoqOg6TIoY4MU6G) the pre packaged OVA & deploy to your datacenter
+1. [Download](https://rakdom.asuscomm.com/owncloud/s/77XOOVUiEHoAScs) the pre packaged OVA & deploy to your datacenter
 2. Boot the VM and ensure you get a valid IP and can reach the internet
 3. Open a console to the VM and login as viewadmin/viewadmin
 4. Open Terminal and type `sudo apt-get update && sudo apt-get upgrade`
 5. Install all available updates and reboot if prompted
 6. Open Terminal and type `su root -c ./horizon-optimizer.sh`
 7. Enter the root password (viewadmin)
-8. Follow the prompts 
+8. Follow the prompts
 
-Once complete, you can manually install the VMware Horizon Agent following instructions [here](http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-F1CE6329-250C-44BF-9708-7155539275E1.html) then proceed to building your pools.
+Once complete, you can manually install the VMware Horizon Agent following instructions [here](http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-F1CE6329-250C-44BF-9708-7155539275E1.html) or invoke the _linux-agent-installer.sh_ script by typing `su root -c ./linux-agent-installer.sh` then proceed to building your pools.
 
 
 ### Changelog
+Version: RC2
+
+* Horizon Agent installer script now available
+* Domain Join via Winbind is now optional to allow domain flexibility 
+* Winbind default domain flag optional (previously set to false)
+* GNOME Flashback or MATE Desktop Environment option
+* OVA RAM increased to 2GB per best practice
+* OVA CPU increased to 2 vCPU per best practice
+* SVGA properties added to VMX per best practice
+* Disable LTS Upgrade Notification
+* Some script optimizations
+
 Version: RC1
 
 * Built from Ubuntu’s mini.iso for a minimal footprint
@@ -65,7 +81,7 @@ Version: RC1
 
 Joining the domain can fail for many reasons. You can try the below tests and review against the guide [here](https://thatvirtualboy.com/2016/09/27/deploying-linux-vdi-pools-with-horizon-7/#::Configure-Ubuntu-to-Integrate-with-Active-Directory).
 
-If the VM failed to join the domain during the script, attempt manually joining again after the reboot.
+* If the VM failed to join the domain during the script, attempt manually joining again after the reboot.
 
 `kinit username@DOMAIN.COM`
 
@@ -75,6 +91,6 @@ If the VM failed to join the domain during the script, attempt manually joining 
 
 `net ads testjoin` (should say “Join is OK” if it worked)
 
-Verify your **hosts**, **KRB5** and **SMB** configuration files reflect the correct addresses and IP addresses.
+* Verify your **hosts**, **KRB5** and **SMB** configuration files reflect the correct addresses and IP addresses.
 
-Verify there is no time drift between the Ubuntu VM and the DCs. You may need to reconfigure NTP or disable it.
+* Verify there is no time drift between the Ubuntu VM and the DCs. You may need to reconfigure NTP or disable it.
