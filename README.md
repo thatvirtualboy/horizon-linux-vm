@@ -78,7 +78,9 @@ Version: RC1
 * Consider deleting the scripts from /home/viewadmin prior to creating your clones
 
 
-### Troubleshooting Domain Join
+### Troubleshooting
+
+## Domain Join
 
 Joining the domain can fail for many reasons. You can try the below tests and review against the guide [here](https://thatvirtualboy.com/2016/09/27/deploying-linux-vdi-pools-with-horizon-7/#::Configure-Ubuntu-to-Integrate-with-Active-Directory).
 
@@ -95,3 +97,9 @@ Joining the domain can fail for many reasons. You can try the below tests and re
 * Verify your **hosts**, **KRB5** and **SMB** configuration files reflect the correct addresses and IP addresses.
 
 * Verify there is no time drift between the Ubuntu VM and the DCs. You may need to reconfigure NTP or disable it.
+
+## Agent Status
+
+If your Horizon Agent status is _Unreachable_ or _Waiting for Agent,_ review the official troubleshooting guide [here](http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-B8DDB7F4-E448-44D2-8F6C-02407BA4A74E.html).
+
+Additionally, some environments may require you to add the Connection Server IP/FQDN to the **/etc/hosts** file. This is usually an environmental DNS issue.
