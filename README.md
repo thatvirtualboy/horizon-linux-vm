@@ -21,7 +21,7 @@ Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative t
 * Horizon Linux VM has been tested with Windows 2003 & 2008 Domains and Samba Domains
 
 ### Steps:
-1. [Download](https://rakdom.asuscomm.com/owncloud/s/77XOOVUiEHoAScs) the pre packaged OVA & deploy to your datacenter
+1. [Download](https://rakdom.asuscomm.com/owncloud/s/77XOOVUiEHoAScs) the pre packaged OVA & deploy to your datacenter // **CURRENTLY UNAVAILABLE. A fiber cable was crushed in my neighborhood causing a major outage. Hopefully back up Dec. 6th. Follow my twitter account (@thatvirtualboy) for updates.**
 2. Boot the VM and ensure you get a valid IP and can reach the internet
 3. Open a console to the VM and login as viewadmin/viewadmin
 4. Open Terminal and type `sudo apt-get update && sudo apt-get upgrade`
