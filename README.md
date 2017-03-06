@@ -93,10 +93,16 @@ Joining the domain can fail for many reasons. You can try the below tests and re
    `net ads join -U username%password`
 
    `net ads testjoin` (should say “Join is OK” if it worked)
+   
+* If you consitently get the error `This operation is only allowed for the PDC of the domain` try
+
+   `realm join -U username@DOMAIN.COM domaincontroller@domain.com`
 
 * Verify your **hosts**, **KRB5** and **SMB** configuration files reflect the correct addresses and IP addresses.
 
 * Verify there is no time drift between the Ubuntu VM and the DCs. You may need to reconfigure NTP or disable it.
+
+* Sometimes adding the DC to /etc/hosts can help nudge the domain join along
 
 ### Agent Status
 
