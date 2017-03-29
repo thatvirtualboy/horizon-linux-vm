@@ -1,6 +1,8 @@
 # Horizon Linux VM
 Optimized Ubuntu Template for VMware Horizon 7
 
+### This project is now [published as a VMware Fling](https://labs.vmware.com/flings/horizon-ova-for-ubuntu). Please visit the Flings site to get the latest build. 
+
 Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative to Windows for VDI Admins who are looking to move away from a Windows-centric desktop delivery. With an infrastructure utilizing VMware Horizon 7, this pre-packaged OVA aims to ease the setup and configuration of a Ubuntu Template VM, especially for Windows Admins that aren’t familiar with a Linux desktop. This OVA allows for two configurations:
 
 ### GNOME Flashback (Metacity) - Official VMware Supported DE
@@ -12,16 +14,16 @@ Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative t
 ## Instructions
 
 ### Preconfigured Ubuntu OVA
-* Base image is Ubuntu 14.04.5 LTS x64 (final image is < 5GB!)
+* Base image is Ubuntu 16.04.2 LTS x64 (final image is < 5GB!)
 * VMware HW v11 (requires ESXi 6.0)
 * Default username/password is viewadmin/viewadmin
 * The VM includes the optimization script which configures VM to Best Practices per Horizon 7 Documentation
 * Additional system tweaks and applications may be necessary for your needs. 
 * Due to licensing limitations, the Horizon Agent is _currently_ not included in this OVA. It must be downloaded manually after booting and running the script. 
-* Horizon Linux VM has been tested with Windows 2003 & 2008 Domains and Samba Domains
+* Horizon Linux VM has been tested with Windows 2003, 2008 & 2012 Domains and Samba Domains
 
 ### Steps:
-1. [Download](https://rakdom.asuscomm.com/owncloud/s/77XOOVUiEHoAScs) the pre packaged OVA & deploy to your datacenter // ~~CURRENTLY UNAVAILABLE. A fiber cable was crushed in my neighborhood causing a major outage. Hopefully back up Dec. 6th. Follow my twitter account (@thatvirtualboy) for updates.~~
+1. [Download](https://labs.vmware.com/flings/horizon-ova-for-ubuntu) the pre packaged OVA & deploy to your datacenter
 2. Boot the VM and ensure you get a valid IP and can reach the internet
 3. Open a console to the VM and login as viewadmin/viewadmin
 4. Open Terminal and type `sudo apt-get update && sudo apt-get upgrade`
@@ -30,10 +32,16 @@ Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative t
 7. Enter the root password (viewadmin)
 8. Follow the prompts
 
-Once complete, you can manually install the VMware Horizon Agent following instructions [here](http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-F1CE6329-250C-44BF-9708-7155539275E1.html) or invoke the _linux-agent-installer.sh_ script by typing `su root -c ./linux-agent-installer.sh` then proceed to building your pools.
+Once complete, you can manually install the VMware Horizon Agent following instructions [here](http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-F1CE6329-250C-44BF-9708-7155539275E1.html) or invoke the horizon-linux-installer.sh_ script by typing `su root -c ./horizon-linux-installer.sh` then proceed to building your pools.
 
 
 ### Changelog
+Version: 1.0.0
+
+* Published as _Ubuntu OVA for Horizon_ on VMware Flings
+* Base updated to Ubuntu 16.04 LTS
+* Requires Horizon 7.0.3 or later
+
 Version: RC2
 
 * Horizon Agent installer script now available
