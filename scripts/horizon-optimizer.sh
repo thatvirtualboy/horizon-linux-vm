@@ -1,10 +1,11 @@
 #! /bin/bash
 #
 # Horizon Optimizer for Ubuntu by Ryan Klumph
-# Version: RC2
-# Please report any issues to Ryan on Twitter (@thatvirtualboy)
+# Version: 1.0.0
+# Please report any issues to Ryan on Twitter (@thatvirtualboy) or on VMware Flings
 # Changelog and source available at https://github.com/thatvirtualboy/horizon-linux-vm
 # www.thatvirtualboy.com
+#
 
 # Check for root
 if [ "$(whoami)" != "root" ]; then
@@ -27,14 +28,14 @@ echo "| - Join the domain (optional)                                       |"
 echo "| - Other optimizations                                              |"
 echo "|                                                                    |"
 echo "|   For a full list of changes and optimizations,                    |"
-echo "|   please visit https://thatvirtualboy.com                          |"
+echo "|   please visit https://github.com/thatvirtualboy/horizon-linux-vm  |"
 echo "|                                                                    |"
 echo "|   ** THIS SCRIPT IS NOT OFFICIALLY SUPPORTED BY VMWARE             |"
 echo "|   ** ENSURE YOU HAVE PROPER BACKUPS                                |"
 echo "|   ** ENSURE SYSTEM IS FULLY UPDATED BEFORE INVOKING SCRIPT         |"
 echo "|                                                                    |"
 echo "|                                                                    |"
-echo "|                     >>> That Virtual Boy  <<<                      |"
+echo "|                       >>> VMware Flings <<<                        |"
 echo "+--------------------------------------------------------------------+"
 echo -e "\e[36m"
 read -p "Press any key to start..." -n1 -s
@@ -43,7 +44,9 @@ clear
 
 # Configure Network Settings
 sleep 2s
+echo -e "\e[36m"
 echo "Checking network..."
+echo -e "\e[0m"
 sleep 2s
 nslookup vmware.com &> /dev/null
 if [[ $? > 0 ]]
@@ -57,11 +60,8 @@ else
     echo -e "\e[36mNetwork OK!\e[0m"
 fi
 
-# Configure Network
-sleep 2s
-clear
-echo -e "\e[36mThe script needs to gather some information before we begin.\e[0m"
-sleep 2s
+domainProperties(){
+# Configure Domain Properties
 echo 
 read -p "Please enter your domain (lowercase please. E.g., vcloud.local): " domainname;
 domainrealm=${domainname^^}
@@ -78,6 +78,10 @@ echo
 sleep 2s
 read -p "Enter a domain administrator (E.g., administrator): " domainadmin;
 sleep 2s
+#clear
+}
+
+# Configure DNS
 clear
 echo -e "\e[36mWould you like to configure your DNS?\e[0m"
 select yn in "Yes" "No"; do
@@ -155,9 +159,10 @@ apt-key add /home/viewadmin/packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-
 apt-key add /home/viewadmin/packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-RSA-KEY.pub
 echo "deb http://packages.vmware.com/packages/ubuntu precise main" > /etc/apt/sources.list.d/vmware-tools.list
 apt-get update 
-apt-get install open-vm-tools-deploypkg -y 
+apt-get install open-vm-tools -y
+apt-get install krb5-locales -y
 
-# Install figlet for TVB
+# Install figlet
 apt-get install figlet -y
 
 # Install Media Codecs
@@ -210,7 +215,6 @@ echo -e "\e[36m"
 read -p "To optimize login screen for Enterprise, lightdm will be configured. In the next screen, please select lightdm. Press [ENTER] to continue." -n1 -s
 echo -e "\e[0m"
 apt-get install lightdm lightdm-gtk-greeter -y
-#sed -i '2 s/.*greeter-session=.*/greeter-session=lightdm-gtk-greeter/' /usr/share/lightdm/lightdm.conf.d/50-unity-greeter.conf
 echo '[SeatDefaults]' >> /usr/share/lightdm/lightdm.conf.d/50-unity-greeter.conf
 echo 'greeter-show-manual-login=true' >> /usr/share/lightdm/lightdm.conf.d/50-unity-greeter.conf
 echo 'greeter-hide-users=true' >> /usr/share/lightdm/lightdm.conf.d/50-unity-greeter.conf
@@ -224,8 +228,8 @@ mv /usr/share/xsessions/gnome-classic.desktop /usr/share/xsessions/gnome-classic
 # Install Winbind and configure Active Directory Integration
 winbind(){
 apt-get install winbind -y 
-wget https://raw.githubusercontent.com/thatvirtualboy/horizon-optimizer/master/files/krb5.conf -O /etc/krb5.conf 
-wget https://raw.githubusercontent.com/thatvirtualboy/horizon-optimizer/master/files/smb.conf -O /etc/samba/smb.conf 
+wget https://raw.githubusercontent.com/thatvirtualboy/horizon-linux-vm/master/files/krb5.conf -O /etc/krb5.conf 
+wget https://raw.githubusercontent.com/thatvirtualboy/horizon-linux-vm/master/files/smb.conf -O /etc/samba/smb.conf 
 
 
 # Configure KRB5
@@ -243,8 +247,8 @@ sed -i "4 s/.*wins.*/wins server = $wins/" /etc/samba/smb.conf
 sed -i "5 s/.*realm.*/realm = ${domainname^^}/" /etc/samba/smb.conf
 clear
 echo -e "\e[36mWould you like Winbind to use default domain? More info here: http://bit.ly/2eYWFl7\e[0m"
-select kn in "Yes" "No"; do
-  case $kn in
+select wn in "Yes" "No"; do
+  case $wn in
     Yes ) 
 sed -i "10 s/.*winbind.*/winbind use default domain = true/" /etc/samba/smb.conf
 break;;
@@ -275,12 +279,12 @@ cat /dev/null > ~/.bash_history
 cat /dev/null > /var/log/horizon-optimizer.log
 
 
-figlet -f small That Virtual Boy
-echo "                   https://thatvirtualboy.com"
+figlet -f small VMware Flings
+echo "              https://labs.vmware.com/flings/"
 echo
 echo
 echo
-echo -e "\e[36mYour Ubuntu Template has been optimized for Horizon 7!\e[0m"
+echo -e "\e[36mYour Ubuntu VM has been optimized for Horizon 7!\e[0m"
 echo -e "\e[36mVisit https://github.com/thatvirtualboy/ if there were any domain join errors.\e[0m"
 echo
 echo -e "\e[36mNext Steps: install apps, apply required customizations, and install the Horizon Agent.\e[0m"
@@ -330,9 +334,12 @@ echo
 echo -e "\e[36mDo you want to install Winbind and join the domain? If you choose No, you will need to manually configure Active Directory Integration later.\e[0m"
 select kn in "Yes" "No"; do
 case $kn in
-Yes ) winbind
+Yes )
+domainProperties
+winbind
 break;;
-No ) finish
+No )
+finish
 break;; 
 esac
 done
