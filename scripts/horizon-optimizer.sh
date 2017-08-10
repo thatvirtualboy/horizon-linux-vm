@@ -1,11 +1,32 @@
 #! /bin/bash
 #
 # Horizon Optimizer for Ubuntu by Ryan Klumph
-# Version: 1.0.0
+# Version: 1.1.0
 # Please report any issues to Ryan on Twitter (@thatvirtualboy) or on VMware Flings
 # Changelog and source available at https://github.com/thatvirtualboy/horizon-linux-vm
 # www.thatvirtualboy.com
 #
+
+# Changelog // Special thanks to Tiddy, David, and Jack
+# v1.1.0
+#
+# MATE Only Release
+# Increased vRAM to 128 MB instead of Automatic
+# Removed Audio Device
+# Updated default network device to VMXNET3
+# Updated repository for open-vm-tools to Ubuntu repo
+# Added Horizon 7.1 Agent Dependencies
+# Updated Dependency packages for Ubuntu 16.04 on Horizon 7.1
+# Agent installer script updated with Horizon 7.1 links
+# Updated Media Codec packages for Ubuntu 16.04
+# Updated MATE packages to Xenial
+# More reliable domain join
+# Password update optional
+# Timezone update optional
+# Option to change hostname
+# Desktop addons optional
+# Added retry attempts for failed wgets of smb and krb5 configuration files
+# Renamed ‘horizon-linux-installer.sh’ to ‘linux-agent-installer.sh
 
 # Check for root
 if [ "$(whoami)" != "root" ]; then
@@ -17,7 +38,7 @@ fi
 
 clear
 echo "+--------------------------------------------------------------------+"
-echo "| This script will configure your Ubuntu Template for Horizon 7      |"
+echo "| This script will configure your Ubuntu Template for Horizon 7.1    |"
 echo "| It will also do the following:                                     |"
 echo "|                                                                    |"
 echo "| - Install Open VM Tools                                            |"
@@ -58,6 +79,8 @@ then
 else
     echo
     echo -e "\e[36mNetwork OK!\e[0m"
+    sleep 2s
+    clear
 fi
 
 domainProperties(){
@@ -80,6 +103,33 @@ read -p "Enter a domain administrator (E.g., administrator): " domainadmin;
 sleep 2s
 #clear
 }
+
+# Configure hostname
+hostn=$(cat /etc/hostname)
+
+# Display existing hostname
+echo -e "\e[36mExisting hostname is $hostn\e[0m"
+
+# Ask for new hostname
+echo -e "\e[36mWould you like to change your hostname?\e[0m"
+select cn in "Yes" "No"; do
+case $cn in
+Yes )
+echo "Enter new hostname: "
+read newhost
+#change hostname in /etc/hosts & /etc/hostname
+sudo sed -i "s/$hostn/$newhost/g" /etc/hosts
+sudo sed -i "s/$hostn/$newhost/g" /etc/hostname
+#display new hostname
+echo -e "\e[36mYour new hostname is $newhost\e[0m"
+sleep 3s
+break;;
+No ) echo -e "\e[36mSkipping hostname configuration\e[0m";
+echo
+sleep 2s
+break;;
+esac
+done
 
 # Configure DNS
 clear
@@ -107,16 +157,31 @@ adduser viewadmin sudo &> /dev/null
 
 # Change Timezone // Only for OVA
 echo "Current Timezone is USA/Denver"
-echo -e "\e[36m"
-read -p "Press any key to change timezone... " -n1 -s
-echo -e "\e[0m"
+#echo -e "\e[36m"
+#read -p "Press any key to change timezone... " -n1 -s
+echo -e "\e[36mWould you like to change your timezone?\e[0m"
+select an in "Yes" "No"; do
+case $an in
+  Yes )
+#echo -e "\e[0m"
 dpkg-reconfigure tzdata
 echo
 sleep 3
 clear
+break;;
+No ) echo -e "\e[36mSkipping timezone configuration\e[0m";
+echo
+sleep 2s
+break;;
+esac
+done
+clear
 
 # Change password
-echo "Now would be a good time to change some passwords."
+echo -e "\e[36mNow would be a good time to change some passwords. Would you like to change your default passwords? (Recommended)\e[0m"
+select bn in "Yes" "No"; do
+case $bn in
+  Yes )
 echo "The current password for viewadmin is [viewadmin]"
 echo -e "\e[36m"
 read -p "Press any key to change viewadmin's password... " -n1 -s
@@ -144,7 +209,14 @@ fi
 echo
 echo -e "\e[0m"
 clear &&
-
+break;;
+No ) echo -e "\e[36mSkipping password configuration\e[0m";
+echo
+sleep 2s
+break;;
+esac
+done
+clear
 ##########################################
 # Install packages and perform OS Tweaks #
 ##########################################
@@ -153,26 +225,40 @@ echo -e "\e[36mOptimizing system. This will take several minutes...\e[0m"
 echo
 sleep 2s
 
-# Install Open VM Tools
-wget -r --no-parent --reject "index.html*" http://packages.vmware.com/tools/keys/ -P /home/viewadmin
-apt-key add /home/viewadmin/packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-DSA-KEY.pub
-apt-key add /home/viewadmin/packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-RSA-KEY.pub
-echo "deb http://packages.vmware.com/packages/ubuntu precise main" > /etc/apt/sources.list.d/vmware-tools.list
+# Install Open VM Tools and Kerberos
+#wget -r --no-parent --reject "index.html*" http://packages.vmware.com/tools/keys/ -P /home/viewadmin
+#apt-key add /home/viewadmin/packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-DSA-KEY.pub
+#apt-key add /home/viewadmin/packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-RSA-KEY.pub
+#echo "deb http://packages.vmware.com/packages/ubuntu precise main" > /etc/apt/sources.list.d/vmware-tools.list
 apt-get update 
-apt-get install open-vm-tools -y
+apt-get install open-vm-tools-desktop -y
 apt-get install krb5-locales -y
 
 # Install figlet
 apt-get install figlet -y
 
 # Install Media Codecs
-apt-get install gstreamer0.10-plugins-bad-multiverse -y 
-apt-get install libavcodec-extra-54 -y 
+clear
+echo -e "\e[36mWould you like to install Media Codecs and Desktop Applications? This makes the desktop more user-friendly. (gstreamer, libavcodec, unrar, ubuntu addons)\e[0m"
+select dn in "Yes" "No"; do
+case $dn in
+Yes )
+apt-get install gstreamer1.0-plugins-good -y 
+apt-get install libavcodec-extra -y 
 apt-get install unrar -y 
 apt-get install ubuntu-restricted-addons -y 
 clear
+break;;
+No ) echo -e "\e[36mSkipping desktop addons\e[0m";
+echo
+sleep 2s
+break;;
+esac
+done
+
+clear
 echo -e "\e[36m"
-echo "Configuring desktop environment..."
+echo "Optimizing desktop environment..."
 echo -e "\e[0m"
 sleep 2s
 
@@ -185,7 +271,8 @@ sed -i '17 s/.*Prompt.*/Prompt=never/' /etc/update-manager/release-upgrades
 # Update nsswitch
 sed -i '7 s/.*passwd:.*/passwd:         compat winbind/' /etc/nsswitch.conf
 sed -i '9 s/.*shadow:.*/shadow:         compat winbind/' /etc/nsswitch.conf
-sed -i '11 s/.*hosts:.*/hosts:          cache db files dns/' /etc/nsswitch.conf
+#sed -i '11 s/.*hosts:.*/hosts:          cache db files dns/' /etc/nsswitch.conf
+sed -i '12 s/.*hosts:.*/hosts:          cache db files dns/' /etc/nsswitch.conf
 
 # Enable home directory for new users
 echo 'session required pam_mkhomedir.so skel=/etc/skel/ umask=0022' >> /etc/pam.d/common-session
@@ -196,7 +283,8 @@ apt-get update
 apt-get -f install -y
 apt-get install software-properties-common -y
 apt-add-repository ppa:ubuntu-mate-dev/ppa -y
-apt-add-repository ppa:ubuntu-mate-dev/trusty-mate -y 
+#apt-add-repository ppa:ubuntu-mate-dev/trusty-mate -y 
+apt-add-repository ppa:ubuntu-mate-dev/xenial-mate -y
 apt-get update 
 apt-get install ubuntu-mate-core ubuntu-mate-desktop -y 
 apt-get install mate-desktop-environment-extra -y 
@@ -205,7 +293,7 @@ echo 'greeter-hide-users=true' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-ma
 echo 'allow-guest=false' >> /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
 }
 
-# Install GNOME desktop and modify login screen
+# Install GNOME desktop and modify login screen // Removed in 1.1.0 Release
 configureGNOME(){
 apt-get update
 apt-get -f install -y
@@ -227,9 +315,9 @@ mv /usr/share/xsessions/gnome-classic.desktop /usr/share/xsessions/gnome-classic
 
 # Install Winbind and configure Active Directory Integration
 winbind(){
-apt-get install winbind -y 
-wget https://raw.githubusercontent.com/thatvirtualboy/horizon-linux-vm/master/files/krb5.conf -O /etc/krb5.conf 
-wget https://raw.githubusercontent.com/thatvirtualboy/horizon-linux-vm/master/files/smb.conf -O /etc/samba/smb.conf 
+apt-get install winbind libnss-winbind libpam-winbind -y 
+wget --tries=3 https://raw.githubusercontent.com/thatvirtualboy/horizon-linux-vm/master/files/krb5.conf -O /etc/krb5.conf 
+wget --tries=3 https://raw.githubusercontent.com/thatvirtualboy/horizon-linux-vm/master/files/smb.conf -O /etc/samba/smb.conf 
 
 
 # Configure KRB5
@@ -245,6 +333,13 @@ sed -i "2 s/.*workgroup.*/workgroup = ${domainrealm%.*}/" /etc/samba/smb.conf
 sed -i "3 s/.*password.*/password server = ${domaincontroller,,}.${domainname,,}/" /etc/samba/smb.conf 
 sed -i "4 s/.*wins.*/wins server = $wins/" /etc/samba/smb.conf 
 sed -i "5 s/.*realm.*/realm = ${domainname^^}/" /etc/samba/smb.conf
+
+# Update Hosts file
+echo $domaincontrollerip $domaincontroller'.'$domainname $domaincontroller >> /etc/hosts 
+
+# Update resolv
+echo 'nameserver ' $domaincontroller'.'$domainname >> /etc/resolv.conf
+
 clear
 echo -e "\e[36mWould you like Winbind to use default domain? More info here: http://bit.ly/2eYWFl7\e[0m"
 select wn in "Yes" "No"; do
@@ -284,11 +379,11 @@ echo "              https://labs.vmware.com/flings/"
 echo
 echo
 echo
-echo -e "\e[36mYour Ubuntu VM has been optimized for Horizon 7!\e[0m"
+echo -e "\e[36mYour Ubuntu VM has been optimized for Horizon 7.1!\e[0m"
 echo -e "\e[36mVisit https://github.com/thatvirtualboy/ if there were any domain join errors.\e[0m"
 echo
 echo -e "\e[36mNext Steps: install apps, apply required customizations, and install the Horizon Agent.\e[0m"
-echo -e "\e[36mAfter reboot, viewadmin can invoke the 'horizon-linux-installer.sh' script if desired."
+echo -e "\e[36mAfter reboot, viewadmin can invoke the 'linux-agent-installer.sh' script if desired."
 echo
 echo -e "\e[31m"
 read -p "Press [ENTER] to reboot the VM..."
@@ -296,36 +391,30 @@ echo -e "\e[0m"
 reboot
 }
 
-# Update Hosts file
-echo $domaincontrollerip $domaincontroller'.'$domainname $domaincontroller >> /etc/hosts 
-
-# Update resolv
-echo 'nameserver ' $domaincontroller'.'$domainname >> /etc/resolv.conf
-
 # Install Horizon Agent Dependencies
-wget http://launchpadlibrarian.net/201393830/indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb 
-dpkg -i ./indicator-session_12.10.5+15.04.20150327-0ubuntu1_amd64.deb 
+apt-get install python-dbus -y
+apt-get install python-gobject -y
 
 
-# Choose DE
-clear
-echo -e "\e[36mChoose a desktop session. GNOME Flashback is officially supported by VMware. MATE currently is not supported, but has been known to work.\e[0m"
-select knn in "GNOME" "MATE"; do
-case $knn in
-GNOME )
-echo
-echo -e "\e[36mConfiguring GNOME Flashback (Metacity) Desktop Environment...\e[0m"
-echo
-configureGNOME
-break;;
-MATE ) 
-echo
-echo -e "\e[36mConfiguring MATE Desktop Environment (UNSUPPORTED)...\e[0m"
-echo
+# Choose DE // Removed in 1.1.0 Release - defaults to MATE DE
+  #clear
+   #echo -e "\e[36mChoose a desktop session. GNOME Flashback is officially supported by VMware. MATE currently is not supported, but has been known to work.\e[0m"
+   #select knn in "GNOME" "MATE"; do
+   #case $knn in
+   #GNOME )
+   #echo
+   #echo -e "\e[36mConfiguring GNOME Flashback (Metacity) Desktop Environment...\e[0m"
+   #echo
+   #configureGNOME
+   #break;;
+   #MATE ) 
+   #echo
+   #echo -e "\e[36mConfiguring MATE Desktop Environment...\e[0m"
+   #echo
 configureMATE
-break;; 
-esac
-done
+   #break;; 
+   #esac
+   #done
 
 # Choose to join domain
 clear
