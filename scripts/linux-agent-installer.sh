@@ -1,7 +1,10 @@
 #! /bin/bash
 #
-# Script for installing the VMware Horizon Agent for Linux with default values
+# Script for installing and configuring the VMware Horizon Agent for Linux with default values
 #
+# Changelog
+# v1.1
+# Updated links for Horizon 7.1
 
 # Check for root
 if [ "$(whoami)" != "root" ]; then
@@ -15,15 +18,16 @@ fi
 # Prompt to download Horizon Agent
 clear
 echo "+--------------------------------------------------------------------+"
-echo "| You must manually download the VMware Horizon Agent for Linux      |"
-echo "| before running this script.                                        |"
+echo "| You must manually download the VMware Horizon 7.1 Agent for Linux  |"
+echo "| before running this script. It will install the agent with default |"
+echo "| values.                                                            |"
 echo "|                                                                    |"
-echo "| - Download: http://bit.ly/2emSkDI                                  |"
+echo "| - Download: http://bit.ly/2pw5LKO                                  |"
 echo "| - Place the downloaded file anywhere on this system                |"
 echo "| - Invoke this script as root                                       |"
 echo "| - Follow the prompts                                               |"
 echo "|                                                                    |"
-echo "|                     >>> That Virtual Boy  <<<                      |"
+echo "|                       >>> VMware Flings  <<<                       |"
 echo "+--------------------------------------------------------------------+"
 echo -e "\e[36m"
 read -p "Press any key to start..." -n1 -s
@@ -56,12 +60,12 @@ else
     exit 1
 fi
 
-figlet -f small That Virtual Boy
-echo "                   https://thatvirtualboy.com"
+figlet -f small VMware Flings
+echo "              https://labs.vmware.com/flings/"
 echo
 echo
 echo
-echo -e "\e[36mHorizon Agent has been installed! See http://bit.ly/2gPwhKV for configuration options.\e[0m"
+echo -e "\e[36mHorizon Agent has been installed! See http://bit.ly/2pvWuCg for configuration options.\e[0m"
 echo
 echo -e "\e[31m"
 read -p "Press [ENTER] to reboot the VM..."
