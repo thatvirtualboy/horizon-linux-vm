@@ -1,7 +1,7 @@
-# Horizon Linux VM
+# Horizon Linux VM - dev branch
 Optimized Ubuntu Template for VMware Horizon 7
 
-### This project is now [published as a VMware Fling](https://labs.vmware.com/flings/horizon-ova-for-ubuntu). Please visit the Flings site to get the latest build. 
+### This project is now [published as a VMware Fling](https://labs.vmware.com/flings/horizon-ova-for-ubuntu). Please visit the Flings site to get the latest build.
 
 Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative to Windows for VDI Admins who are looking to move away from a Windows-centric desktop delivery. With an infrastructure utilizing VMware Horizon 7, this pre-packaged OVA aims to ease the setup and configuration of a Ubuntu Template VM, especially for Windows Admins that aren’t familiar with a Linux desktop. This OVA allows for two configurations:
 
@@ -18,8 +18,8 @@ Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative t
 * VMware HW v11 (requires ESXi 6.0)
 * Default username/password is viewadmin/viewadmin
 * The VM includes the optimization script which configures VM to Best Practices per Horizon 7 Documentation
-* Additional system tweaks and applications may be necessary for your needs. 
-* Due to licensing limitations, the Horizon Agent is _currently_ not included in this OVA. It must be downloaded manually after booting and running the script. 
+* Additional system tweaks and applications may be necessary for your needs.
+* Due to licensing limitations, the Horizon Agent is _currently_ not included in this OVA. It must be downloaded manually after booting and running the script.
 * Horizon Linux VM has been tested with Windows 2003, 2008 & 2012 Domains and Samba Domains
 
 ### Steps:
@@ -45,7 +45,7 @@ Version: 1.0.0
 Version: RC2
 
 * Horizon Agent installer script now available
-* Domain Join via Winbind is now optional to allow domain flexibility 
+* Domain Join via Winbind is now optional to allow domain flexibility
 * Winbind default domain flag optional (previously set to false)
 * GNOME Flashback or MATE Desktop Environment option
 * OVA RAM increased to 2GB per best practice
@@ -79,7 +79,7 @@ Version: RC1
 
 ### Key Considerations
 
-* Note your Active Directory may have different encryption type requirements. These can be modified in krb5.conf 
+* Note your Active Directory may have different encryption type requirements. These can be modified in krb5.conf
 * After rebooting, you can run the command `wbinfo -g` to see your AD groups. This also confirms you are joined to the domain.
 * This script defaults the Winbind Separator to "+" in **smb.conf.** You can change it depending on your needs. More info [here](https://communities.vmware.com/docs/DOC-30246).
 * Using Winbind means each clone must re-join the domain after creation. You can create a local script on each clone to perform this, but it would require domain admin credentials in plaintext. In a production environment, it is recommended to remotely join your clones to the domain [using PowerCLI or SSH](http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-0C6CE923-3CBB-4006-9081-807B62F474DF.html).
@@ -101,7 +101,7 @@ Joining the domain can fail for many reasons. You can try the below tests and re
    `net ads join -U username%password`
 
    `net ads testjoin` (should say “Join is OK” if it worked)
-   
+
 * If you consitently get the error `This operation is only allowed for the PDC of the domain` try
 
    `realm join -U username@DOMAIN.COM domaincontroller@domain.com`
