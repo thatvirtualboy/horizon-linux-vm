@@ -5,7 +5,7 @@ Optimized Ubuntu Template for VMware Horizon 7
 
 Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative to Windows for VDI Admins who are looking to move away from a Windows-centric desktop delivery. With an infrastructure utilizing VMware Horizon 7, this pre-packaged OVA aims to ease the setup and configuration of a Ubuntu Template VM, especially for Windows Admins that aren’t familiar with a Linux desktop.
 
-### Gnome
+### Gnome (recommended)
 <p align="center"><img src="https://user-images.githubusercontent.com/13758243/76128915-f19b4380-5fc2-11ea-8474-1fd8ddb40cdc.png" height="593" width="765"></p>
 
 ### MATE
@@ -34,13 +34,13 @@ Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative t
 8. Follow the prompts
 
 Once complete, you'll want to finish customizing your template to your needs before installing the Horizon Agent (e.g., SSO, 3D/NVIDIA GRID requirements, etc). See the VMware Linux Desktop instructions [here](https://docs.vmware.com/en/VMware-Horizon-7/7.11/linux-desktops-setup.pdf).
-After completing your customizations, you can manually install the Horizon Agent, or you can invoke the _linux-agent-installer.sh_ script by typing `su root -c ./linux-agent-installer.sh` and proceed with building your pools.
+After completing your customizations, you can manually install the Horizon Agent, or you can invoke the _linux-agent-installer.sh_ script by typing `su root -c ./linux-agent-installer.sh` then proceed with building your pools.
 
 
 ### Changelog
 Version: 1.2
 
-* Special thanks to Robert Guske for testing
+* Special thanks to Robert Guske for testing & feedback
 * Support for Horizon 7.11 and 7.12
 * Support for vSphere 6.7+
 * Updated OVA base image to Ubuntu 18.04.4 LTS
@@ -51,11 +51,11 @@ Version: 1.2
 * Added Gnome Desktop Environment Option (recommended)
 * Added Keyboard Layout Option
 * Added option to enable SSH
-* Cleaned up installation language and output
 * Removed runlevel 5 setting
 * Fixed MOTD prompt code
 * Disabled auto software updates
 * Removed greeter modifications to support SSO
+* Numerous improvements to script
 * Script renamed to 'optimize.sh'
 
 Version: 1.1.0
