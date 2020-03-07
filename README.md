@@ -42,9 +42,9 @@ Choosing to install the Developer Desktop Package when prompted will install the
 * Octant
 * zsh + ohmyzsh
 
-NOTE: this option requires you add your subnet to _/etc/vmware/viewagent-custom.conf_ e.g., `Subnet=10.1.1.11/24`
+NOTE: this option requires you add your subnet to _/etc/vmware/viewagent-custom.conf_ following the Horizon Agent install (e.g., `Subnet=10.1.1.11/24`)
 
-For additional Developer-specific tweaks, see my colleague [Robert Guske's](https://twitter.com/vmw_rguske) excellent Horizon Linux Blog series [here](https://rguske.github.io/post/a-linux-development-desktop-with-vmware-horizon-part-i-horizon/)
+> For additional Developer-specific tweaks, see my colleague [Robert Guske's](https://twitter.com/vmw_rguske) excellent Horizon Linux Blog series [here](https://rguske.github.io/post/a-linux-development-desktop-with-vmware-horizon-part-i-horizon/)
 
 
 ### Changelog
