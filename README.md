@@ -1,5 +1,6 @@
 # Horizon Linux VM - dev branch
 Optimized Ubuntu Template for VMware Horizon 7
+[![Tip Me via PayPal](https://img.shields.io/badge/PayPal-tip%20me-green.svg?logo=paypal)](https://www.paypal.me/phiredrop)
 
 ### This project is [published as a VMware Fling](https://labs.vmware.com/flings/horizon-ova-for-ubuntu). Please visit the Flings site to get the latest OVA.
 
@@ -46,7 +47,7 @@ Choosing to install the Developer Desktop Package when prompted will install the
 
 NOTE: this option requires you add your subnet to _/etc/vmware/viewagent-custom.conf_ following the Horizon Agent install (e.g., `Subnet=10.1.1.11/24`)
 
-> For additional Developer-specific tweaks, see my colleague [Robert Guske's](https://twitter.com/vmw_rguske) excellent Horizon Linux Blog series [here](https://rguske.github.io/post/a-linux-development-desktop-with-vmware-horizon-part-i-horizon/)
+> For additional Developer-specific tweaks, as well as a thorough Horizon Linux build process from end to end, see my colleague [Robert Guske's](https://twitter.com/vmw_rguske) excellent Horizon Linux Blog series [here](https://rguske.github.io/post/a-linux-development-desktop-with-vmware-horizon-part-i-horizon/)
 
 
 ### Changelog
