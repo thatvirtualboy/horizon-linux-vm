@@ -5,7 +5,6 @@ Optimized Ubuntu Template for VMware Horizon 7
 
 Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative to Windows for VDI Admins who are looking to move away from a Windows-centric desktop delivery. With an infrastructure utilizing VMware Horizon 7, this pre-packaged OVA aims to ease the setup and configuration of a Ubuntu Template VM, especially for Windows Admins that aren’t familiar with a Linux desktop.
 
-### Gnome (recommended)
 <p align="center"><img src="https://user-images.githubusercontent.com/13758243/76128915-f19b4380-5fc2-11ea-8474-1fd8ddb40cdc.png" height="593" width="765"></p>
 
 ## Instructions
@@ -171,4 +170,4 @@ Joining the domain can fail for many reasons. You can try the below tests and re
 
 * Some environments may require you to add the Connection Server IP/FQDN to the **/etc/hosts** file. This is usually an environmental DNS issue.
 
-* Some environments may require you to add a search domain to _/etc/netpan/01-netcfg.yaml_: e.g.,  `search: [corp.local]`
+* Some environments may require you to add a search domain to _/etc/netplan/01-netcfg.yaml_ (e.g.,  `search: [corp.local]`)
