@@ -1,7 +1,7 @@
 # Horizon Linux VM - dev branch
 Optimized Ubuntu Template for VMware Horizon 7
 
-![Ubuntu 14.04.4 LTS](https://img.shields.io/badge/Ubuntu-14.04.4-orange)
+![Ubuntu 14.04.4 LTS](https://img.shields.io/badge/Ubuntu-18.04.4-orange)
 [![Published VMware Fling](https://img.shields.io/badge/VMware-Fling-blue)](https://labs.vmware.com/flings/horizon-ova-for-ubuntu)
 [![Tip Me via PayPal](https://img.shields.io/badge/PayPal-tip%20me-green.svg?logo=paypal)](https://www.paypal.me/phiredrop)
 [![Twitter Follow](https://img.shields.io/twitter/follow/thatvirtualboy?style=social)](https://twitter.com/thatvirtualboy)
@@ -50,9 +50,9 @@ Choosing to install the Developer Desktop Package when prompted will install the
 * Octant
 * zsh + ohmyzsh
 
-NOTE: this option requires you add your subnet to _/etc/vmware/viewagent-custom.conf_ following the Horizon Agent install (e.g., `Subnet=10.1.1.11/24`)
+NOTE: this option requires you add your subnet to _/etc/vmware/viewagent-custom.conf_ following the Horizon Agent install (e.g., `Subnet=10.1.1.0/24`)
 
-> For additional Developer-specific tweaks, as well as a thorough Horizon Linux build process from end to end, see my colleague [Robert Guske's](https://twitter.com/vmw_rguske) excellent Horizon Linux Blog series [here](https://rguske.github.io/post/a-linux-development-desktop-with-vmware-horizon-part-i-horizon/)
+> For additional Developer-specific tweaks and detailed build guidance, see my colleague [Robert Guske's](https://twitter.com/vmw_rguske) excellent Horizon Linux Blog series [here](https://rguske.github.io/post/a-linux-development-desktop-with-vmware-horizon-part-i-horizon/)
 
 
 ### Changelog
@@ -140,7 +140,7 @@ Version: RC1
 
 ### Key Considerations
 
-* Note your Active Directory may have different encryption type requirements. These can be modified in krb5.conf
+* Note your Active Directory may have different encryption type requirements. These can be modified in **krb5.conf**
 * After rebooting, you can run the command `wbinfo -g` to see your AD groups. This also confirms you are joined to the domain.
 * This script defaults the Winbind Separator to "+" in **smb.conf.** You can change it depending on your needs. More info [here](https://communities.vmware.com/docs/DOC-30246).
 * Using Winbind means each clone must re-join the domain after creation. You can create a local script on each clone to perform this, but it would require domain admin credentials in plaintext. In a production environment, it is recommended to remotely join your clones to the domain [using PowerCLI or SSH](http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-0C6CE923-3CBB-4006-9081-807B62F474DF.html).
