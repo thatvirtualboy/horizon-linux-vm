@@ -2,8 +2,8 @@
 Optimized Ubuntu Template for VMware Horizon 7
 
 [![Tip Me via PayPal](https://img.shields.io/badge/PayPal-tip%20me-green.svg?logo=paypal)](https://www.paypal.me/phiredrop)
-[![Follow Me on Twitter](https://img.shields.io/twitter/follow/thatvirtualboy?label=Follow&style=social)
-[![Ubuntu 14.04.4 LTS](https://img.shields.io/badge/Ubuntu-14.04.4-orange)]
+![Follow Me on Twitter](https://img.shields.io/twitter/follow/thatvirtualboy?label=Follow&style=social)
+![Ubuntu 14.04.4 LTS](https://img.shields.io/badge/Ubuntu-14.04.4-orange)
 
 ### This project is [published as a VMware Fling](https://labs.vmware.com/flings/horizon-ova-for-ubuntu). Please visit the Flings site to get the latest OVA.
 
