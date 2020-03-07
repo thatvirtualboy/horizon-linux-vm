@@ -7,15 +7,18 @@ Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative t
 
 <p align="center"><img src="https://user-images.githubusercontent.com/13758243/76128915-f19b4380-5fc2-11ea-8474-1fd8ddb40cdc.png" height="593" width="765"></p>
 
-## Instructions
+## Details
 
 ### Preconfigured Ubuntu OVA
 * Base image is Ubuntu 18.04.4 LTS x64 built from mini.iso for minimal footprint
 * VMware HW v14 (requires vSphere 6.7+)
+* Configures Master Image for 2D Graphics Settings
 * Default username/password is viewadmin/viewadmin
 * The VM includes the `optimization.sh` script which configures VM to Best Practices per Horizon 7 Documentation as well as the `linux-agent-install.sh` script to install the Horizon Agent and configure USB 3.0 Redirection
 * Additional system tweaks and applications may be necessary for your needs.
 * Due to licensing limitations, the Horizon Agent is NOT included in this OVA. It must be downloaded manually after completing the optimization script.
+
+## Instructions
 
 ### Steps:
 1. [Download](https://labs.vmware.com/flings/horizon-ova-for-ubuntu) the pre packaged OVA & deploy to your datacenter
