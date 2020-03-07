@@ -1,17 +1,12 @@
 # Horizon Linux VM - dev branch
 Optimized Ubuntu Template for VMware Horizon 7
 
-### This project is [published as a VMware Fling](https://labs.vmware.com/flings/horizon-ova-for-ubuntu). Please visit the Flings site to get the latest build.
+### This project is [published as a VMware Fling](https://labs.vmware.com/flings/horizon-ova-for-ubuntu). Please visit the Flings site to get the latest OVA.
 
 Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative to Windows for VDI Admins who are looking to move away from a Windows-centric desktop delivery. With an infrastructure utilizing VMware Horizon 7, this pre-packaged OVA aims to ease the setup and configuration of a Ubuntu Template VM, especially for Windows Admins that aren’t familiar with a Linux desktop.
 
 ### Gnome (recommended)
 <p align="center"><img src="https://user-images.githubusercontent.com/13758243/76128915-f19b4380-5fc2-11ea-8474-1fd8ddb40cdc.png" height="593" width="765"></p>
-
-### MATE
-
-### KDE
-
 
 ## Instructions
 
@@ -34,7 +29,22 @@ Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative t
 8. Follow the prompts
 
 Once complete, you'll want to finish customizing your template to your needs before installing the Horizon Agent (e.g., SSO, 3D/NVIDIA GRID requirements, etc). See the VMware Linux Desktop instructions [here](https://docs.vmware.com/en/VMware-Horizon-7/7.11/linux-desktops-setup.pdf).
+
 After completing your customizations, you can manually install the Horizon Agent, or you can invoke the _linux-agent-installer.sh_ script by typing `su root -c ./linux-agent-installer.sh` then proceed with building your pools.
+
+### Developer Desktop Package
+Choosing to install the Developer Desktop Package when prompted will install the following packages:
+
+* snapd
+* VSCode
+* Docker
+* Kind
+* Octant
+* zsh + ohmyzsh
+
+NOTE: this option requires you add your subnet to _/etc/vmware/viewagent-custom.conf_ e.g., `Subnet=10.1.1.11/24`
+
+For additional Developer-specific tweaks, see my colleague [Robert Guske's](https://twitter.com/vmw_rguske) excellent Horizon Linux Blog series [here](https://rguske.github.io/post/a-linux-development-desktop-with-vmware-horizon-part-i-horizon/)
 
 
 ### Changelog
@@ -49,6 +59,7 @@ Version: 1.2
 * Added support for USB 3.0 and USB Redirection (via linux-agent-installer.sh)
 * Added KDE Desktop Environment Option
 * Added Gnome Desktop Environment Option (recommended)
+* Developer Desktop Package option
 * Added Keyboard Layout Option
 * Added option to enable SSH
 * Removed runlevel 5 setting
@@ -156,6 +167,8 @@ Joining the domain can fail for many reasons. You can try the below tests and re
 
 ### Agent Status
 
-If your Horizon Agent status is _Unreachable_ or _Waiting for Agent,_ review the official troubleshooting guide [here](http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-B8DDB7F4-E448-44D2-8F6C-02407BA4A74E.html).
+* If your Horizon Agent status is _Unreachable_ or _Waiting for Agent,_ review the official troubleshooting guide [here](http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-B8DDB7F4-E448-44D2-8F6C-02407BA4A74E.html).
 
-Additionally, some environments may require you to add the Connection Server IP/FQDN to the **/etc/hosts** file. This is usually an environmental DNS issue.
+* Some environments may require you to add the Connection Server IP/FQDN to the **/etc/hosts** file. This is usually an environmental DNS issue.
+
+* Some environments may require you to add a search domain to _/etc/netpan/01-netcfg.yaml_: e.g.,  `search: [corp.local]`
