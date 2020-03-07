@@ -175,7 +175,7 @@ Joining the domain can fail for many reasons. You can try the below tests and re
 
 ### Agent Status
 
-* If your Horizon Agent status is _Unreachable_ or _Waiting for Agent,_ review the official troubleshooting guide [here](http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-B8DDB7F4-E448-44D2-8F6C-02407BA4A74E.html).
+* If your Horizon Agent status is _Unreachable_ or _Waiting for Agent,_ review the official troubleshooting guide [here](https://docs.vmware.com/en/VMware-Horizon-7/7.0/com.vmware.horizon-view.linuxdesktops.doc/GUID-127FFC83-BD23-4A91-A074-480595DFB027.html).
 
 * Some environments may require you to add the Connection Server IP/FQDN to the **/etc/hosts** file. This is usually an environmental DNS issue.
 
