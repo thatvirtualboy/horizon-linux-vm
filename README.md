@@ -17,9 +17,10 @@ Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative t
 ### Preconfigured Ubuntu OVA
 * Base image is Ubuntu 18.04.4 LTS x64 built from mini.iso for minimal footprint
 * VMware HW v14 (requires vSphere 6.7+)
-* Configures Master Image for 2D Graphics Settings
+* Configured for 2D Graphics Settings
 * Default username/password is viewadmin/viewadmin
-* The VM includes the `optimization.sh` script which configures VM to Best Practices per Horizon 7 Documentation as well as the `linux-agent-install.sh` script to install the Horizon Agent and configure USB 3.0 Redirection
+* The VM includes the `optimization.sh` script which configures VM to Best Practices per Horizon 7 Documentation & joins the domain
+* The VM includes the `linux-agent-install.sh` script to install the Horizon Agent and configure USB 3.0 Redirection
 * Additional system tweaks and applications may be necessary for your needs.
 * Due to licensing limitations, the Horizon Agent is NOT included in this OVA. It must be downloaded manually after completing the optimization script.
 
@@ -35,9 +36,9 @@ Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative t
 7. Enter the root password (viewadmin)
 8. Follow the prompts
 
-Once complete, you'll want to finish customizing your template to your needs before installing the Horizon Agent (e.g., SSO, 3D/NVIDIA GRID requirements, etc). See the VMware Linux Desktop instructions [here](https://docs.vmware.com/en/VMware-Horizon-7/7.11/linux-desktops-setup.pdf).
+Once complete, you'll want to finish customizing your template to your needs before installing the Horizon Agent (e.g., configure SSO, configure 3D/NVIDIA GRID requirements, etc). See the Official VMware Linux Desktop Guide [here](https://docs.vmware.com/en/VMware-Horizon-7/7.11/linux-desktops-setup.pdf).
 
-After completing your customizations, you can manually install the Horizon Agent, or you can invoke the _linux-agent-installer.sh_ script by typing `su root -c ./linux-agent-installer.sh` then proceed with building your pools.
+After completing your customizations, you can manually install the Horizon Agent, or you can invoke the included _linux-agent-installer.sh_ script by typing `su root -c ./linux-agent-installer.sh` then proceed with building your pools.
 
 ### Developer Desktop Package
 Choosing to install the Developer Desktop Package when prompted will install the following packages:
