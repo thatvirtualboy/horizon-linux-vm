@@ -56,7 +56,7 @@ Version: 1.2
 * Support for Horizon 7.11 and 7.12
 * Support for vSphere 6.7+
 * Updated OVA base image to Ubuntu 18.04.4 LTS
-* Updated Virtual Hardware to v14 for vSphere 6.7+ support
+* Updated Virtual Hardware to v14
 * Added option to configure static networking
 * Added support for USB 3.0 and USB Redirection (via linux-agent-installer.sh)
 * Added KDE Desktop Environment Option
