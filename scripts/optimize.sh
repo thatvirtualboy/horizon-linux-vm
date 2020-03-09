@@ -78,7 +78,7 @@
 
 # Some Variables
 TICK="[$\e[92m√\e[0m]"
-CROSS="[$\e[91mx\e[0m]"
+CROSS="[!]"
 INFO="[i]"
 ASK="[\e[93m?\e[0m]"
 green='\e[32m'
@@ -166,7 +166,7 @@ sleep 4
 
 clear
 echo "+--------------------------------------------------------------------+"
-echo "| This script will configure your Ubuntu Template for Horizon 7.12   |"
+echo "| This script will configure your Ubuntu Template for Horizon 7      |"
 echo "| with 2D graphics. It will also do the following:                   |"
 echo "|                                                                    |"
 echo "| - Install Open VM Tools                                            |"
@@ -267,8 +267,7 @@ select yn in "Yes" "No"; do
 case $yn in
 Yes )
 read -p "  ${INFO} Type your preferred IP Address and hit [ENTER] " staticip; read -p "  ${INFO} Type your subnet mask in short form including the slash (e.g., /24) and hit [ENTER] " subnet; read -p "  ${INFO} Type your Gateway IP and hit [ENTER] " gatewayip; read -p "  ${INFO} Type your primary DNS server IP and hit [ENTER] " enterdns1; read -p "  ${INFO} Type your secondary DNS server IP and hit [ENTER] " enterdns2;
-#sudo echo "dns-nameservers "$enterdns1 "" $enterdns2 >> /etc/network/interfaces
-# add file from github that is edited with deets
+# create Netplan Config
 nic=`ifconfig | awk 'NR==1{print $1}'`
 sudo touch /etc/netplan/01-netcfg.yaml
 cat > /etc/netplan/01-netcfg.yaml <<EOF
@@ -548,7 +547,7 @@ echo
 echo -e "\e[36m   Your image has been optimized for Horizon 7!\e[0m"
 echo -e "\e[36m   Additional configuration may be needed for AD and/or SSO.\e[0m"
 echo
-echo -e "\e[36m   Next Steps: install apps, apply required customizations, and install the Horizon Agent.\e[0m"
+echo -e "\e[36m   Next Steps: install desired apps, apply any customizations, and install the Horizon Agent.\e[0m"
 echo -e "\e[36m   NOTE: The included 'linux-agent-installer.sh' script can assist in the agent install.\e[0m"
 
 echo
@@ -616,7 +615,7 @@ select dn in "Yes" "No"; do
 	case $dn in
 		Yes )
     echo
-		echo -e "\e[36mConfiguring Developer Desktop Package...\e[0m"
+		echo -e "   \e[36mConfiguring Developer Desktop Package...\e[0m"
 		apt-get install snapd -y
 		snap install code --classic -y
 		sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
@@ -632,7 +631,7 @@ select dn in "Yes" "No"; do
     wget https://github.com/vmware-tanzu/octant/releases/download/v0.10.2/octant_0.10.2_Linux-64bit.deb
 		dpkg -i octant_0.*.deb
 		apt-get install zsh -y
-		sh -c "$(curl -fsSL https://raw.githubusercontent.com/thatvirtualboy/ohmyzsh/master/tools/install.sh)"
+		sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 		break;;
 		No )
 		echo -e "  ${INFO} \e[36mSkipping Developer Desktop configuration...\e[0m";
@@ -644,7 +643,7 @@ done
 # Prompt for SSH
 clear
 printhead
-echo -e "  ${INFO} \e[36mWould you like to enable SSH? (This will not permit root login!)\e[0m"
+echo -e "  ${INFO} \e[36mWould you like to enable SSH? (This will NOT permit root login!)\e[0m"
 select dn in "Yes" "No"; do
 	case $dn in
 		Yes )
