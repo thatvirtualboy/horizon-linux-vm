@@ -10,7 +10,11 @@ Optimized Ubuntu Template for VMware Horizon 7
 
 Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative to Windows for VDI Admins who are looking to move away from a Windows-centric desktop delivery. With an infrastructure utilizing VMware Horizon 7, this pre-packaged OVA aims to ease the setup and configuration of a Ubuntu Template VM, especially for Windows Admins that aren’t familiar with a Linux desktop.
 
+### Gnome Ubuntu in the Horizon Client
 <p align="center"><img src="https://user-images.githubusercontent.com/13758243/76128915-f19b4380-5fc2-11ea-8474-1fd8ddb40cdc.png" height="593" width="765"></p>
+
+### Ubuntu + Plasma Desktop in the Horizon Client
+<p align="center"><img src="https://user-images.githubusercontent.com/13758243/76239700-a1f18d80-61f7-11ea-9e41-4866e0bf5b91.png" height="593" width="765"></p>
 
 ## Details
 
@@ -49,6 +53,7 @@ Choosing to install the Developer Desktop Package when prompted will install the
 * Kind
 * Octant
 * zsh + ohmyzsh
+   * NOTE: This WILL change your default shell
 
 NOTE: this option requires you add your subnet to _/etc/vmware/viewagent-custom.conf_ following the Horizon Agent install (e.g., `Subnet=10.1.1.0/24`)
 
@@ -143,7 +148,7 @@ Version: RC1
 * Note your Active Directory may have different encryption type requirements. These can be modified in **krb5.conf**
 * After rebooting, you can run the command `wbinfo -g` to see your AD groups. This also confirms you are joined to the domain.
 * This script defaults the Winbind Separator to "+" in **smb.conf.** You can change it depending on your needs. More info [here](https://communities.vmware.com/docs/DOC-30246).
-* Using Winbind means each clone must re-join the domain after creation. You can create a local script on each clone to perform this, but it would require domain admin credentials in plaintext. In a production environment, it is recommended to remotely join your clones to the domain [using PowerCLI or SSH](http://pubs.vmware.com/horizon-7-view/topic/com.vmware.horizon-view.linuxdesktops702.doc/GUID-0C6CE923-3CBB-4006-9081-807B62F474DF.html).
+* Using Winbind means each clone must re-join the domain after creation. You can create a local script on each clone to perform this, but it would require domain admin credentials in plaintext. In a production environment, it is recommended to remotely join your clones to the domain [using PowerCLI or SSH](https://docs.vmware.com/en/VMware-Horizon-7/7.11/linux-desktops-setup/GUID-314A1BC4-9670-4640-AE5E-98E8BA0E55C8.html?hWord=N4IghgNiBcIEYFcIGsQF8g).
 * Consider deleting the scripts from /home/viewadmin prior to creating your clones
 
 
