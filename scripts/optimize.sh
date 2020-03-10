@@ -631,7 +631,7 @@ select dn in "Yes" "No"; do
     wget https://github.com/vmware-tanzu/octant/releases/download/v0.10.2/octant_0.10.2_Linux-64bit.deb
 		dpkg -i octant_0.*.deb
 		apt-get install zsh -y
-		sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+		sh -c "$(curl -fsSL https://raw.githubusercontent.com/thatvirtualboy/ohmyzsh/master/tools/install.sh)"
 		break;;
 		No )
 		echo -e "  ${INFO} \e[36mSkipping Developer Desktop configuration...\e[0m";
