@@ -17,6 +17,7 @@ Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative t
 <p align="center"><img src="https://user-images.githubusercontent.com/13758243/76239700-a1f18d80-61f7-11ea-9e41-4866e0bf5b91.png" height="593" width="765"></p>
 
 ### Ubuntu + MATE Desktop in the Horizon Client
+<p align="center"><img src="https://user-images.githubusercontent.com/13758243/76270283-56ac9e80-623a-11ea-944a-c4c9119cf47f.png" height="593" width="765"></p>
 
 ## Details
 
@@ -25,7 +26,7 @@ Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative t
 * VMware HW v14 (requires vSphere 6.7+)
 * Configured for 2D Graphics Settings
 * Default username/password is viewadmin/viewadmin
-* The VM includes the `optimization.sh` script which configures VM to Best Practices per Horizon 7 Documentation & joins the domain
+* The VM includes the `optimize.sh` script which configures VM to Best Practices per Horizon 7 Documentation & joins the domain
 * The VM includes the `linux-agent-install.sh` script to install the Horizon Agent and configure USB 3.0 Redirection
 * Additional system tweaks and applications may be necessary for your needs.
 * Due to licensing limitations, the Horizon Agent is NOT included in this OVA. It must be downloaded manually after completing the optimization script.
@@ -44,7 +45,7 @@ Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative t
 
 Once complete, you'll want to finish customizing your template to your needs before installing the Horizon Agent (e.g., configure SSO, configure 3D/NVIDIA GRID requirements, etc). See the Official VMware Linux Desktop Guide [here](https://docs.vmware.com/en/VMware-Horizon-7/7.11/linux-desktops-setup.pdf).
 
-After completing your customizations, you can manually install the Horizon Agent, or you can invoke the included _linux-agent-installer.sh_ script by typing `su root -c ./linux-agent-installer.sh` then proceed with building your pools.
+After completing your customizations, you can manually install the Horizon Agent, or you can invoke the included _linux-agent-installer.sh_ script by typing `su root -c ./linux-agent-installer.sh` then proceed with building your pools. This script will install the Horizon Agent with default values, as well as prompt to enable USB 3.0 compatibility and redirection.
 
 ### Developer Desktop Package
 Choosing to install the Developer Desktop Package when prompted will install the following packages:
