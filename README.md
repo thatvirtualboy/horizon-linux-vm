@@ -56,9 +56,9 @@ Choosing to install the Developer Desktop Package when prompted will install the
 * Kind
 * Octant
 * zsh + ohmyzsh
-   * NOTE: This WILL change your default shell
+   * NOTE: users will need to be added to `/etc/passwd` in order to set zsh as default shell
 
-NOTE: this option requires you add your subnet to _/etc/vmware/viewagent-custom.conf_ following the Horizon Agent install (e.g., `Subnet=10.1.1.0/24`)
+NOTE: Enabling Developer Desktop Package requires you to add your subnet to _/etc/vmware/viewagent-custom.conf_ following the Horizon Agent install (e.g., `Subnet=10.10.100.1/24`)
 
 > For additional Developer-specific tweaks and detailed build guidance, see my colleague [Robert Guske's](https://twitter.com/vmw_rguske) excellent Horizon Linux Blog series [here](https://rguske.github.io/post/a-linux-development-desktop-with-vmware-horizon-part-i-horizon/)
 
