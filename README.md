@@ -20,7 +20,7 @@ Ubuntu Desktop is the perfect Virtual Desktop Infrastructure (VDI) alternative t
 <p align="center"><img src="https://user-images.githubusercontent.com/13758243/76270283-56ac9e80-623a-11ea-944a-c4c9119cf47f.png" height="593" width="765"></p>
 
 ## Join the conversation
-Come say hi on Slack and engage with the community over at [VMware {CODE}](https://code.vmware.com/web/code/join). You can find us at our new channel []#ubuntu-ova-for-horizon](https://vmwarecode.slack.com/archives/CV56WUL84)
+Come say hi on Slack and engage with the community over at [VMware {CODE}](https://code.vmware.com/web/code/join). You can find us at our new channel [#ubuntu-ova-for-horizon](https://vmwarecode.slack.com/archives/CV56WUL84)
 
 ## Details
 
