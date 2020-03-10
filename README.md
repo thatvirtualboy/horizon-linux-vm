@@ -66,7 +66,7 @@ NOTE: Enabling Developer Desktop Package requires you to add your subnet to _/et
 > For additional Developer-specific tweaks and detailed build guidance, see my colleague [Robert Guske's](https://twitter.com/vmw_rguske) excellent Horizon Linux Blog series [here](https://rguske.github.io/post/a-linux-development-desktop-with-vmware-horizon-part-i-horizon/)
 
 
-### Changelog
+## Changelog
 Version: 1.2
 
 * Special thanks to Robert Guske for testing & feedback
@@ -149,7 +149,7 @@ Version: RC1
 * Currently only supports one domain controller
 * Support for 2D desktops only
 
-### Key Considerations
+## Key Considerations
 
 * Note your Active Directory may have different encryption type requirements. These can be modified in **krb5.conf**
 * After rebooting, you can run the command `wbinfo -g` to see your AD groups. This also confirms you are joined to the domain.
