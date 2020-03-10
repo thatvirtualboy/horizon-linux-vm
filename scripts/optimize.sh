@@ -438,9 +438,12 @@ done
 clear
 printhead
 echo -e "\e[36m"
-echo "   Dropping out of light speed in 3...2..."
+echo "   Performing additional optimizations..."
 echo -e "\e[0m"
 sleep 2s
+
+# Disable auto-suspend
+systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
 
 # Disable LTS Upgrade MOTD
 sed -i '16 s/.*Prompt.*/Prompt=never/' /etc/update-manager/release-upgrades
@@ -541,6 +544,7 @@ clear
 printhead
 
 echo "                https://labs.vmware.com/flings/"
+echo "                  https://thatvirtualboy.com"
 echo
 echo
 echo

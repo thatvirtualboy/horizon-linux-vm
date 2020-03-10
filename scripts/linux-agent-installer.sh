@@ -127,7 +127,8 @@ header='__     ____  __                        _____ _ _
   \ V / | |  | |\ V  V | (_| | | |  __|  _| | | | | | | (_| \__ \
    \_/  |_|  |_| \_/\_/ \__,_|_|  \___|_|   |_|_|_| |_|\__, |___/
                                                        |___/'
-echo "              https://labs.vmware.com/flings/"
+printhead
+echo "             https://labs.vmware.com/flings/"
 echo
 echo
 echo
