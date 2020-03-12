@@ -1,4 +1,4 @@
-# Horizon Linux VM - dev branch
+# Horizon Linux VM
 Optimized Ubuntu Template for VMware Horizon 7
 
 ![Ubuntu 14.04.4 LTS](https://img.shields.io/badge/Ubuntu-18.04.4-orange)
